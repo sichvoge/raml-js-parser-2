@@ -14,6 +14,7 @@ import search=require("./search")
 import universes=require("../tools/universe")
 import universeHelpers=require("../tools/universeHelpers")
 import services=defs
+import typeBuilder = require("./typeBuilder")
 type ASTNodeImpl=hlimpl.ASTNodeImpl;
 type ASTPropImpl=hlimpl.ASTPropImpl;
 class KeyMatcher{
@@ -672,7 +673,8 @@ export class BasicNodeBuilder implements hl.INodeBuilder{
         return res;
     }
 }
-function getType(node:hl.IHighLevelNode,expression:string):hl.ITypeDefinition{
+
+function getTypeBase(node:hl.IHighLevelNode,expression:string):hl.ITypeDefinition{
     if (!expression) {
         return node.definition().universe().type(universes.Universe10.StringTypeDeclaration.name);
     }
@@ -710,10 +712,18 @@ function getType(node:hl.IHighLevelNode,expression:string):hl.ITypeDefinition{
     else if (pt.isTimeOnly()){
         return (node.definition().universe().type(universes.Universe10.DateOnlyTypeDeclaration.name));
     }
+
     return (node.definition().universe().type(universes.Universe10.TypeDeclaration.name));
 }
 
+function getType(node:hl.IHighLevelNode,expression:string):hl.ITypeDefinition{
+    var typeBase = getTypeBase(node, expression);
 
+    var ideType = typeBuilder.convertRuntimeHierarchyToIDE(node.parsedType(), node.root());
+    (<any>ideType)._superTypes.push(typeBase);
+
+    return ideType;
+}
 
 function desc1(p:hl.IProperty, parent:hl.IHighLevelNode, x:hl.IHighLevelNode):hl.ITypeDefinition{
     var tp=x.attr("type");

@@ -13,6 +13,7 @@ type ASTPropImpl=hlimpl.ASTPropImpl;
 import services=defs
 import linter=require("./linter")
 import universeHelpers = require("../tools/universeHelpers");
+
 export interface TemplateApplication{
     tp:hl.ITypeDefinition
     attr:hl.IAttribute
@@ -352,4 +353,51 @@ export function convertType(root:hl.IHighLevelNode,t:ramlTypes.IParsedType):hl.I
     }
     var u=transform(root.definition().universe());
     return ramlTypes.toNominal(t,u);
+}
+
+class PropertiesCleaningVisitor {
+    typeEncountered(type: hl.ITypeDefinition): boolean {
+        if (type instanceof defs.typeSystem.StructuredType) {
+            (<defs.typeSystem.StructuredType>type)._properties = [];
+        }
+        return true;
+    }
+        
+    propertyEncountered(property: hl.IProperty, type: hl.ITypeDefinition): boolean {
+        return true;
+    }
+}
+
+class FacetToPropertiesConvertingVisitor {
+    typeEncountered(type: hl.ITypeDefinition): boolean {
+        if (type instanceof defs.typeSystem.StructuredType) {
+            var structuredType = <defs.typeSystem.StructuredType>type;
+
+            if(structuredType.facets()) {
+                structuredType.facets().forEach(facet=>{
+                    structuredType._properties.push(facet);
+                })
+            }
+        }
+        return true;
+    }
+
+    propertyEncountered(property: hl.IProperty, type: hl.ITypeDefinition): boolean {
+        return true;
+    }
+}
+
+export function convertRuntimeHierarchyToIDE(type:ramlTypes.IParsedType, root:hl.IHighLevelNode):hl.ITypeDefinition {
+    var runtimeNominal = convertType(root, type);
+
+    if (!runtimeNominal) return null;
+
+    var ideNominal = runtimeNominal.clone();
+
+    ideNominal.visit(new PropertiesCleaningVisitor());
+
+    ideNominal.visit(new FacetToPropertiesConvertingVisitor());
+    // convertFacetsToProperties(ideNominal);
+
+    return ideNominal;
 }
