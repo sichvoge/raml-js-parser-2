@@ -42,9 +42,14 @@ export function qName(x:hl.IHighLevelNode,context:hl.IHighLevelNode):string{
                     root.asElement().elements().forEach(x=> {
                         if (x.definition().key() == universes.Universe10.UsesDeclaration) {
                             var mm = x.attr("value");
-                            var unit = root.lowLevel().unit().resolve(mm.value());
-                            if (unit != null) {
-                                root.unitMap[unit.absolutePath()] = x.attr("key").value();
+                            if (mm) {
+                                var unit = root.lowLevel().unit().resolve(mm.value());
+                                if (unit != null) {
+                                    var key = x.attr("key");
+                                    if (key) {
+                                        root.unitMap[unit.absolutePath()] = key.value();
+                                    }
+                                }
                             }
                         }
                     });
@@ -68,8 +73,9 @@ export function qName(x:hl.IHighLevelNode,context:hl.IHighLevelNode):string{
 export class BasicASTNode implements hl.IParseResult {
     private _hashkey : string;
 
-
     unitMap:{ [path:string]:string };
+
+    
 
     getKind() : hl.NodeKind {
         return hl.NodeKind.BASIC
@@ -277,6 +283,9 @@ export class BasicASTNode implements hl.IParseResult {
         return true;
     }
     id():string{
+        if (this.cachedId){
+            return this.cachedId;
+        }
         if (this._parent){
             var parentId=this.parent().id();
             parentId+="."+this.name();
@@ -285,19 +294,22 @@ export class BasicASTNode implements hl.IParseResult {
                 var ind=sameName.indexOf(this);
                 parentId+="["+ind+"]"
             }
+            this.cachedId=parentId;
             return parentId;
         }
-        return "";
+        this.cachedId= "";
+        return this.cachedId;
     }
 
     localId():string{
         return this.name();
     }
     cachedId: string
+    cachedFullId: string
 
     fullLocalId() : string {
-        if (this.cachedId){
-            return this.cachedId;
+        if (this.cachedFullId){
+            return this.cachedFullId;
         }
         if (this._parent){
             var result="."+this.name();
@@ -307,11 +319,11 @@ export class BasicASTNode implements hl.IParseResult {
                 var ind=sameName.indexOf(this);
                 result+="["+ind+"]"
             }
-            this.cachedId=result;
+            this.cachedFullId=result;
             return result;
         }
-        this.cachedId= this.localId();
-        return this.cachedId;
+        this.cachedFullId= this.localId();
+        return this.cachedFullId;
     }
 
     property():hl.IProperty{
@@ -564,6 +576,10 @@ export class ASTPropImpl extends BasicASTNode implements  hl.IAttribute {
         if (this._value){
             return this._value
         }
+        this._value=this.calcValue();
+        return this._value;
+    }
+    private calcValue():any{
         if (this._computed){
             return this.computedValue(this.property().nameId());
         }
@@ -624,8 +640,8 @@ export class ASTPropImpl extends BasicASTNode implements  hl.IAttribute {
         var result = (indent?indent:"") +
             (this.name() + " : " + className
             + "[" + definitionClassName + "]"
-            + "  =  " + this.value()) + (this.property().isKey()&&this.optional()?"?":"");
-            "\n";
+            + "  =  " + this.value()) + (this.property().isKey()&&this.optional()?"?":"")
+            + "\n";
 
         if (this.value() instanceof StructuredValue){
             var structuredHighLevel : any = (<StructuredValue>this.value()).toHighLevel();
@@ -680,9 +696,11 @@ export class ASTPropImpl extends BasicASTNode implements  hl.IAttribute {
 
     setValue(value: string|StructuredValue) {
         mutators.setValue(this,value);
+        this._value=null;
     }
     setKey(value: string) {
         mutators.setKey(this,value);
+        this._value=null;
     }
 
     children():hl.IParseResult[] {
@@ -691,11 +709,13 @@ export class ASTPropImpl extends BasicASTNode implements  hl.IAttribute {
 
 
     addStringValue(value: string) {
-       mutators.addStringValue(this,value);
+        mutators.addStringValue(this,value);
+        this._value=null;
     }
     
     addStructuredValue(sv: StructuredValue) {
         mutators.addStructuredValue(this,sv)
+        this._value=null;
     }
 
     addValue(value: string|StructuredValue) {
@@ -705,6 +725,8 @@ export class ASTPropImpl extends BasicASTNode implements  hl.IAttribute {
         } else {
             this.addStructuredValue(<StructuredValue>value);
         }
+        this._value=null;
+
     }
 
     isEmbedded(): boolean {
@@ -720,6 +742,8 @@ export class ASTPropImpl extends BasicASTNode implements  hl.IAttribute {
 
     setValues(values: string[]) {
         mutators.setValues(this,values);
+        this._value=null;
+
     }
 
     isEmpty(): boolean {
@@ -773,8 +797,19 @@ export interface ParseNode {
 
 export class LowLevelWrapperForTypeSystem extends defs.SourceProvider implements ParseNode{
 
+    private _toMerge:LowLevelWrapperForTypeSystem;
+
     constructor(protected _node:ll.ILowLevelASTNode, protected _highLevelRoot:hl.IHighLevelNode){
         super()
+
+        var v=<ASTNodeImpl>_highLevelRoot.root();
+        var mst=v.getMaster();
+        if (mst&&this._node===_highLevelRoot.lowLevel()){
+            var master=(<ASTNodeImpl>_highLevelRoot).getMasterCounterPart();
+            if (master){
+                this._toMerge=new LowLevelWrapperForTypeSystem(master.lowLevel(),master);
+            }
+        }
     }
 
     contentProvider() {
@@ -805,37 +840,67 @@ export class LowLevelWrapperForTypeSystem extends defs.SourceProvider implements
         }
         return this._node.value();
     }
+    _children:LowLevelWrapperForTypeSystem[];
+
+
+    childByKey:{
+        [key:string]:LowLevelWrapperForTypeSystem;
+    };
     children(){
-        if (this.key()=="uses"&&!this._node.parent().parent()){
-            return this._node.children().map(x=>new UsesNodeWrapperFoTypeSystem(x,this._highLevelRoot))
+        if (this._children){
+            return this._children;
         }
-        return this._node.children().map(x=>new LowLevelWrapperForTypeSystem(x,this._highLevelRoot));
+        if (this.key()=="uses"&&!this._node.parent().parent()){
+            this._children= this._node.children().map(x=>new UsesNodeWrapperFoTypeSystem(x,this._highLevelRoot))
+        }
+        else{
+            this._children=this._node.children().map(x=>new LowLevelWrapperForTypeSystem(x,this._highLevelRoot));
+        }
+        this.childByKey={};
+        for (var i=0;i<this._children.length;i++){
+            var c=this._children[i];
+            this.childByKey[c.key()]=c;
+        }
+        if (this._toMerge){
+            var mrg=this._toMerge.children();
+            for (var i=0;i<mrg.length;i++){
+                var c=mrg[i];
+                var existing=this.childByKey[c.key()];
+                if (existing){
+                    existing._toMerge=c;
+                }
+                else{
+                    this._children.push(c);
+                    this.childByKey[c.key()]=c;
+                }
+
+            }
+        }
+        return this._children;
     }
     childWithKey(k:string):ParseNode
     {
-
-        var mm=this.children();
-        for (var i=0;i<mm.length;i++){
-            if (mm[i].key()==k){
-                return mm[i];
-            }
+        if (!this._children){
+            this.children();
         }
-        return null;
+        return this.childByKey[k];
     }
     kind(){
-        if (this._node.valueKind()==yaml.Kind.MAPPING){
+        var vk=this._node.valueKind();
+        if (vk==yaml.Kind.MAPPING||vk===null){
             return rTypes.NodeKind.MAP;
         }
-        if (this._node.valueKind()==yaml.Kind.MAP){
+        if (vk==yaml.Kind.MAP){
             return rTypes.NodeKind.MAP;
         }
-        if (this._node.kind()==yaml.Kind.MAP){
+        var knd=this._node.kind();
+        if (knd==yaml.Kind.MAP){
             return rTypes.NodeKind.MAP;
         }
-        if (this._node.valueKind()==yaml.Kind.SEQ){
+        if (vk==yaml.Kind.SEQ){
             return rTypes.NodeKind.ARRAY;
         }
-        if (this._node.valueKind()==yaml.Kind.INCLUDE_REF){
+        if (vk==yaml.Kind.INCLUDE_REF){
             if (this._node.children().length>0){
                 //we can safely assume that it is map in the type system in this case
                 return rTypes.NodeKind.MAP;
@@ -895,18 +960,26 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
 
     validate(v:hl.ValidationAcceptor):void{
         var k=this.definition().key();
-        if (k==universes.Universe10.Api||k==universes.Universe08.Api||k==universes.Universe10.Overlay||k==universes.Universe10.Extension){
+        if (k==universes.Universe10.Api||k==universes.Universe08.Api||k==universes.Universe10.Extension){
             if (!this.isExpanded()){
                 var nm=expander.expandTraitsAndResourceTypes(<any>this.wrapperNode());
                 var hlnode=nm.highLevel();
                 hlnode._expanded=true;
+                (<ASTNodeImpl>hlnode).clearTypesCache();
                 hlnode.validate(v);
                 return;
             }
         }
+        if (k==universes.Universe10.Overlay||k==universes.Universe10.Extension){
+            this.clearTypesCache();
+        }
         linter.validate(this,v);
     }
-
+    clearTypesCache(){
+        this._types=null;
+        var c=this.lowLevel().actual();
+        c.types=null;
+    }
 
     types():rTypes.IParsedTypeCollection{
         if (!this._types){
@@ -959,9 +1032,10 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
             var potentialHasExtra = this._ptype;
 
             potentialHasExtra.putExtra(defs.USER_DEFINED_EXTRA, true);
+            this._ptype.putExtra(defs.SOURCE_EXTRA, this);
         }
 
-        this._ptype.putExtra(defs.SOURCE_EXTRA, this);
+
 
         return this._ptype;
     }
@@ -978,6 +1052,8 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
     private _isAux:boolean
     private _auxChecked:boolean=false;
     private _knownIds:{[name:string]:hl.IParseResult};
+    private _knownLowLevelIds:{[name:string]:ll.ILowLevelASTNode};
+
     isInEdit:boolean;
 
     /**
@@ -1167,7 +1243,11 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
         return this.overlayMergeMode;
     }
 
+
+
+
     private calculateMasterByRef() : hl.IParseResult {
+
         var unit = this.lowLevel().unit();
         if (!unit) return null;
 
@@ -1176,18 +1256,22 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
         if (!masterReferenceNode || !masterReferenceNode.value()) {
             return null;
         }
-
+        var lc:any=this.lowLevel();
+        if (lc.master){
+            return lc.master;
+        }
         var masterPath = masterReferenceNode.value();
 
         var masterUnit = (<jsyaml.Project>this.lowLevel().unit().project()).resolve(this.lowLevel().unit().path(),masterPath);
         if (!masterUnit) {
             return null;
         }
-
-        var result = fromUnit(masterUnit);
+        var result = masterUnit.expandedHighLevel();
         (<ASTNodeImpl>result).setMergeMode(this.overlayMergeMode);
+        lc.master=result;
         return result;
     }
+
 
     private resetAuxilaryState() {
         this._isAux = false;
@@ -1234,6 +1318,32 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
             if (r._knownIds){
                 var i=<hl.IHighLevelNode>r._knownIds[this.id()];
                 if (i){
+                    var v=i.children();
+                    return v;
+                }
+            }
+            return [];
+        }
+        return [];
+    }
+    getMasterCounterPart():hl.IHighLevelNode{
+        var r=<ASTNodeImpl>this.root();
+        if (r.isAuxilary()){
+            if (r._knownIds){
+                var i=<hl.IHighLevelNode>r._knownIds[this.id()];
+                return i;
+            }
+            return null;
+        }
+        return null;
+    }
+
+    private getExtractedLowLevelChildren(n:ll.ILowLevelASTNode){
+        var r=<ASTNodeImpl>this.root();
+        if (r.isAuxilary()){
+            if (r._knownLowLevelIds){
+                var i=<ll.ILowLevelASTNode>r._knownLowLevelIds[this.id()];
+                if (i){
                     return i.children();
                 }
             }
@@ -1278,12 +1388,6 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
         var ka=_.find(this.directChildren(),x=>x.property()&&x.property().getAdapter(services.RAMLPropertyService).isKey());
         if (ka&&ka instanceof ASTPropImpl){
             var c= (<ASTPropImpl>ka).value();
-            if (c) {
-                var io = c.indexOf(':');
-                if (io != -1) {//TODO REVIEW
-                    return c.substring(0, io);
-                }
-            }
             return c;
         }
         return super.name();
@@ -1386,6 +1490,7 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
         return [];
     }
 
+
     private mergeChildren(originalChildren : hl.IParseResult[],
                           masterChildren : hl.IParseResult[]) : hl.IParseResult[] {
 
@@ -1430,6 +1535,63 @@ export class ASTNodeImpl extends BasicASTNode implements  hl.IEditableHighLevelN
         }
 
         return null;
+    }
+    private mergeLowLevelChildren(originalChildren : ll.ILowLevelASTNode[],
+                          masterChildren : ll.ILowLevelASTNode[]) : ll.ILowLevelASTNode[] {
+
+        var root = <ASTNodeImpl>this.root();
+
+        if (root.overlayMergeMode == OverlayMergeMode.AGGREGATE) {
+
+            //simply joining the sets
+            return originalChildren.concat(masterChildren);
+        }
+        else if (root.overlayMergeMode  == OverlayMergeMode.MERGE) {
+
+            var result : ll.ILowLevelASTNode[] = []
+
+            originalChildren.forEach(originalChild => {
+
+                var masterCounterpart = _.find(masterChildren,
+                    masterChild => masterChild.key() == originalChild.key());
+
+                if (!masterCounterpart) {
+                    //we dont have a counterpart, so simply adding to result
+                    result.push(originalChild);
+                } else {
+
+                    //there is a counterpart, so deciding what to do:
+                    this.mergeLowLevelChild(result, originalChild, masterCounterpart);
+                }
+            })
+
+            masterChildren.forEach(masterChild => {
+
+                var originalCounterpart = _.find(originalChildren,
+                    originalChild => masterChild.key() == originalChild.key());
+
+                if (!originalCounterpart) {
+                    //we dont have a counterpart, so simply adding to result
+                    result.push(masterChild);
+                }
+            })
+
+            return result;
+        }
+
+        return null;
+    }
+    private mergeLowLevelChild(result : ll.ILowLevelASTNode[], originalChild : ll.ILowLevelASTNode,
+                       masterChild : ll.ILowLevelASTNode) {
+
+        if (originalChild.kind() != masterChild.kind()) {
+
+            //should not happen theoretically
+            result.push(originalChild);
+            result.push(masterChild);
+            return;
+        }
+        result.push(originalChild);
     }
 
     private mergeChild(result : hl.IParseResult[], originalChild : hl.IParseResult,

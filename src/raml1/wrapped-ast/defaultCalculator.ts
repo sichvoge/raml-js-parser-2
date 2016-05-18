@@ -39,7 +39,8 @@ export class AttributeDefaultsCalculator {
      * If attribute value is null or undefined, returns attribute default.
      */
     attributeDefaultIfEnabled(node : hl.IHighLevelNode, attributeProperty : hl.IProperty) : any {
-        if (!this.enabled) return null;
+        if (!this.enabled)
+            return null;
 
         return this.getAttributeDefault(node, attributeProperty);
     }
@@ -279,7 +280,10 @@ class RequiredPropertyCalculator implements ValueCalculator{
                 universeHelpers.isFormParametersProperty(nodeProperty) ||
                 universeHelpers.isQueryParametersProperty(nodeProperty)
             ) {
-                return false;
+                if (attributeProperty.domain().universe().version()=="RAML08"){
+                    return false
+                }
+                return true;
             } else if (universeHelpers.isUriParametersProperty(nodeProperty) ||
                 universeHelpers.isBaseUriParametersProperty(nodeProperty)) {
                 return true;

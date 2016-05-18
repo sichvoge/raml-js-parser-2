@@ -8,6 +8,8 @@ import assert = require("assert")
 //import def = require("raml-definition-system")
 //
 import ll=require("../lowLevelAST")
+import linter=require("../ast.core/linter")
+
 import yll=require("../jsyaml/jsyaml2lowLevel")
 
 ////import high = require("../highLevelImpl")
@@ -25,7 +27,23 @@ describe('Parser integration tests',function(){
         this.timeout(15000);
         testErrors(util.data("../example-ramls/Instagram/api.raml"),["Example does not conform to schema:Content is not valid according to schema:Expected type \\w+ but found type null \\w+,null", "Example does not conform to schema:Content is not valid according to schema:Expected type \\w+ but found type null \\w+,null", "Example does not conform to schema:Content is not valid according to schema:Expected type \\w+ but found type null \\w+,null, Expected type \\w+ but found type null \\w+,null"]);
     });
+    it ("Omni",function(){
+        this.timeout(15000);
+        testErrors(util.data("../example-ramls/omni/api.raml"));
+    });
+    it ("Omni 0.8",function(){
+        this.timeout(15000);
+        testErrors(util.data("../example-ramls/omni08/api.raml"));
+    });
 
+    it ("Cosmetics Overlay",function(){
+        this.timeout(15000);
+        testErrors(util.data("../example-ramls/cosmetics/hypermedia.raml"));
+    });
+    it ("Cosmetics Extension",function(){
+        this.timeout(15000);
+        testErrors(util.data("../example-ramls/cosmetics/hypermedia1.raml"));
+    });
     it ("Instagram 1.0",function(){
         this.timeout(15000);
         testErrors(util.data("../example-ramls/Instagram1.0/api.raml"));
@@ -64,6 +82,11 @@ describe('Parser integration tests',function(){
     it ("lib3",function(){
         this.timeout(15000);
         testErrorsByNumber(util.data("../example-ramls/blog-users2/blog-users.raml"),2,1);
+    });
+    it ("platform2",function(){
+        this.timeout(15000);
+        testErrors(util.data("../example-ramls/platform2/api.raml"),[],true);
+
     });
 });
 
@@ -128,6 +151,9 @@ describe('Security Schemes tests', function () {
     })
     it ("grant type validation" ,function(){
         testErrors(util.data("parser/custom/oath2.raml"),["authorizationGrants should be one of authorization_code,implicit,password,client_credentials or to be an abolute URI"]);
+    })
+    it ("security scheme should be a seq in 0.8" ,function(){
+        testErrorsByNumber(util.data("parser/custom/shemeShouldBeASeq.raml"),1);
     })
 });
 describe('Parser regression tests', function () {
@@ -268,6 +294,15 @@ describe('Parser regression tests', function () {
     })
     it ("anonymous type examples validation test 1" ,function(){
         testErrors(util.data("parser/examples/ex38.raml"));
+    })
+    it ("when using repeat to declare arrays example should not be array" ,function(){
+        testErrors(util.data("parser/examples/ex45.raml"));
+    })
+    it ("when using repeat to declare arrays example should not be array 1.0" ,function(){
+        testErrors(util.data("parser/examples/ex46.raml"));
+    })
+    it ("when using repeat to declare arrays example should not be array 1.0 (negative)" ,function(){
+        testErrorsByNumber(util.data("parser/examples/ex47.raml"),1);
     })
     it ("anonymous type examples validation test 2" ,function(){
         testErrors(util.data("parser/examples/ex39.raml"));
@@ -504,8 +539,35 @@ describe('Parser regression tests', function () {
     it ("runtime types value2" ,function(){
         testErrors(util.data("parser/typexpressions/tr12.raml"));//Ok for now lets improve later
     })
+    it ("union can be object at same moment sometimes" ,function(){
+        testErrors(util.data("parser/typexpressions/tr14.raml"));//Ok for now lets improve later
+    })
+    it ("no unknown facets in union type are allowed" ,function(){
+        testErrorsByNumber(util.data("parser/typexpressions/tr15.raml"),1);//Ok for now lets improve later
+    })
+    it ("sequence composition works in 0.8" ,function(){
+        testErrors(util.data("parser/custom/seq.raml"));//Ok for now lets improve later
+    })
+    it ("sequence composition does not works in 1.0" ,function(){
+        testErrorsByNumber(util.data("parser/custom/seq1.raml"),2);//Ok for now lets improve later
+    })
+    it ("authorization grant is any absolute uri" ,function(){
+        testErrorsByNumber(util.data("parser/custom/grantIsAnyAbsoluteUri.raml"),0);//Ok for now lets improve later
+    })
+    it ("empty schema is ok in 0.8" ,function(){
+        testErrorsByNumber(util.data("parser/custom/emptySchema.raml"),0);//Ok for now lets improve later
+    })
+    it ("properties are map in 1.0" ,function(){
+        testErrorsByNumber(util.data("parser/custom/propMap.raml"),1);//Ok for now lets improve later
+    })
     it ("r2untime types value2" ,function(){
         testErrorsByNumber(util.data("parser/typexpressions/tr13.raml"),1,1);//Ok for now lets improve later
+    })
+    it ("date time format is checked in super types" ,function(){
+        testErrorsByNumber(util.data("parser/annotations/a31.raml"),0);//Ok for now lets improve later
+    })
+    it ("date time format is checked in super types (negative)" ,function(){
+        testErrorsByNumber(util.data("parser/annotations/a32.raml"),1);//Ok for now lets improve later
     })
     //No more signatures
     //it ("signatures with inherited classes" ,function(){
@@ -528,6 +590,10 @@ describe('Parser regression tests', function () {
     })
     it ("resource types test with types" ,function(){
         testErrors(util.data("parser/custom/rtypes.raml"));//Ok for now lets improve later
+    })
+
+    it ("resource path name uses rightmost segment" ,function(){
+        testErrors(util.data("parser/resourceType/resType023.raml"));//Ok for now lets improve later
     })
     it ("form parameters are properties" ,function(){
         testErrors(util.data("parser/custom/noForm.raml"));//Ok for now lets improve later
@@ -581,22 +647,20 @@ describe('Parser regression tests', function () {
         testErrors(util.data("parser/overloading/o1.raml"),["Method 'get' already exists","Method 'get' already exists"]);
     })
     it ("overloading2" ,function(){
-        testErrors(util.data("parser/overloading/o2.raml"),["Resources share same URI","Resources share same URI"]);
+        testErrors(util.data("parser/overloading/o2.raml"),[]);
     })
     it ("overloading3" ,function(){
-        testErrors(util.data("parser/overloading/o3.raml"),["Resources share same URI","Resources share same URI"]);
+        testErrors(util.data("parser/overloading/o3.raml"),["Resource '/{id}' already exists","Resource '/{id}' already exists"]);
     })
     it ("overloading4" ,function(){
-        testErrors(util.data("parser/overloading/o4.raml"),["Resources share same URI","Resources share same URI"]);
+        testErrors(util.data("parser/overloading/o4.raml"),[]);
     })
-    it ("overloading5" ,function(){
-        testErrors(util.data("parser/overloading/o5.raml"),["Resources share same URI","Resources share same URI"]);
-    })
-    it ("overloading6" ,function(){
-        testErrors(util.data("parser/overloading/o6.raml"), ["Resources share same URI","Resources share same URI"]);
-    })
+
+    // it ("overloading6" ,function(){
+    //     testErrors(util.data("parser/overloading/o6.raml"), ["Resources share same URI","Resources share same URI"]);
+    // })
     it ("overloading7" ,function(){
-        testErrors(util.data("parser/overloading/o7.raml"),["Resources share same URI","Resources share same URI"]);
+        testErrors(util.data("parser/overloading/o7.raml"),[]);
     })
 
     //TODO fix test after bug fix.
@@ -613,7 +677,7 @@ describe('Parser regression tests', function () {
         testErrors(util.data("parser/overlay/o1/NewOverlay.raml"));
     })
     it ("overlay2" ,function(){
-        testErrors(util.data("parser/overlay/o2/NewOverlay.raml"),["This node does not override any node from master api:\\.env-org-pair2"]);
+        testErrors(util.data("parser/overlay/o2/NewOverlay.raml"),["The '.env-org-pair2' node does not match any node of the master api."]);
     })
     it ("Overlay: title" ,function(){
         testErrors(util.data("parser/overlay/o3/NewOverlay.raml"));
@@ -667,13 +731,13 @@ describe('Parser regression tests', function () {
         testErrors(util.data("parser/overlay/o19/NewOverlay.raml"), ["Property default is not allowed to be overriden or added in overlays"]);
     })
     it ("Overlay: top-level illegal node" ,function(){
-        testErrors(util.data("parser/overlay/o20/NewOverlay.raml"),["This node does not override any node from master api:\\./resource2"]);
+        testErrors(util.data("parser/overlay/o20/NewOverlay.raml"),["The './resource2' node does not match any node of the master api."]);
     })
     it ("Overlay: sub-level illegal node 1" ,function(){
-        testErrors(util.data("parser/overlay/o21/NewOverlay.raml"),["This node does not override any node from master api:\\./resource\\./resource2"]);
+        testErrors(util.data("parser/overlay/o21/NewOverlay.raml"),["The './resource./resource2' node does not match any node of the master api."]);
     })
     it ("Overlay: sub-level illegal node 2" ,function(){
-        testErrors(util.data("parser/overlay/o22/NewOverlay.raml"),["This node does not override any node from master api:\\./resource\\.post"]);
+        testErrors(util.data("parser/overlay/o22/NewOverlay.raml"),["The './resource.post' node does not match any node of the master api."]);
     })
 
     it ("Security Scheme Fragment: new security scheme" ,function(){
@@ -716,6 +780,9 @@ describe('Parser regression tests', function () {
         testErrors(util.data("parser/external/e2.raml"));
     })
 
+    it ("strange names in parameters" ,function(){
+        testErrors(util.data("parser/custom/strangeParamNames.raml"));
+    })
     // it ("external 3" ,function(){
     //     testErrors(util.data("parser/external/e3.raml"),["Example does not conform to schema:Content is not valid according to schema:Expected type \\w+ but found type \\w+ \\w+,\\w+"]);
     // })
@@ -865,10 +932,10 @@ describe('JSON schemes tests', function () {
         this.timeout(15000);
         testErrorsByNumber(util.data("parser/jsonscheme/test1/apiInvalid.raml"), 1);
     })
-    it("JSON Scheme test 3" ,function() {
-        this.timeout(15000);
-        testErrorsByNumber(util.data("parser/jsonscheme/test2/apiValid.raml"), 0);
-    })
+    // it("JSON Scheme test 3" ,function() {
+    //     this.timeout(15000);
+    //     testErrorsByNumber(util.data("parser/jsonscheme/test2/apiValid.raml"), 0);
+    // })
     it("JSON Scheme test 4" ,function() {
         this.timeout(15000);
         testErrorsByNumber(util.data("parser/jsonscheme/test2/apiInvalid.raml"), 1);
@@ -881,10 +948,10 @@ describe('JSON schemes tests', function () {
         this.timeout(15000);
         testErrorsByNumber(util.data("parser/jsonscheme/test3/apiInvalid.raml"), 1);
     })
-    it("JSON Scheme test 7" ,function() {
-        this.timeout(15000);
-        testErrorsByNumber(util.data("parser/jsonscheme/test4/apiValid.raml"), 0);
-    })
+    // it("JSON Scheme test 7" ,function() {
+    //     this.timeout(15000);
+    //     testErrorsByNumber(util.data("parser/jsonscheme/test4/apiValid.raml"), 0);
+    // })
     it("JSON Scheme test 8" ,function() {
         this.timeout(15000);
         testErrorsByNumber(util.data("parser/jsonscheme/test4/apiInvalid.raml"), 1);
@@ -921,10 +988,10 @@ describe('JSON schemes tests', function () {
         this.timeout(15000);
         testErrorsByNumber(util.data("parser/jsonscheme/test8/apiInvalid.raml"), 1);
     })
-    it("JSON Scheme test 17" ,function() {
-        this.timeout(15000);
-        testErrorsByNumber(util.data("parser/jsonscheme/test9/apiValid.raml"), 0);
-    })
+    // it("JSON Scheme test 17" ,function() {
+    //     this.timeout(15000);
+    //     testErrorsByNumber(util.data("parser/jsonscheme/test9/apiValid.raml"), 0);
+    // })
     it("JSON Scheme test 18" ,function() {
         this.timeout(15000);
         testErrorsByNumber(util.data("parser/jsonscheme/test9/apiInvalid.raml"), 1);
@@ -937,10 +1004,10 @@ describe('JSON schemes tests', function () {
         this.timeout(15000);
         testErrorsByNumber(util.data("parser/jsonscheme/test10/apiInvalid.raml"), 1);
     })
-    it("JSON Scheme test 21" ,function() {
-        this.timeout(15000);
-        testErrorsByNumber(util.data("parser/jsonscheme/test11/apiValid.raml"), 0);
-    })
+    // it("JSON Scheme test 21" ,function() {
+    //     this.timeout(15000);
+    //     testErrorsByNumber(util.data("parser/jsonscheme/test11/apiValid.raml"), 0);
+    // })
     it("JSON Scheme test 22" ,function() {
         this.timeout(15000);
         testErrorsByNumber(util.data("parser/jsonscheme/test11/apiInvalid.raml"), 1);
@@ -1167,11 +1234,14 @@ function testErrorsEnd(p:string) {
 
 }
 
-export function testErrors(p:string, expectedErrors=[]){
+export function testErrors(p:string, expectedErrors=[],ignoreWarnings:boolean=false){
     var api=util.loadApi(p);
     api = util.expandHighIfNeeded(api);
 
     var errors:any=util.validateNode(api);
+    if (ignoreWarnings){
+        errors=errors.filter(x=>!x.isWarning);
+    }
     var testErrors;
     var hasUnexpectedErr = false;
     if(expectedErrors.length>0){

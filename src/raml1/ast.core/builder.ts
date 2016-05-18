@@ -438,11 +438,34 @@ export class BasicNodeBuilder implements hl.INodeBuilder{
                             if (p.getAdapter(services.RAMLPropertyService).isEmbedMap()) {
 
                                 var chld = x.children();
+                                var newChld:ll.ILowLevelASTNode[]=[];
+                                var hasSequenceComposition=false;
+                                chld.forEach(n=>{
+                                    if (n.kind()==yaml.Kind.INCLUDE_REF) {
+                                        if (aNode.universe().version() == "RAML08") {
+                                            n.children().forEach(y=> {
+                                                var node = new hlimpl.ASTNodeImpl(y, aNode, <any> range, p);
+                                                node._allowQuestion = allowsQuestion;
+                                                rs.push(node);
+                                                hasSequenceComposition = true;
+                                            })
+                                        }
+                                        else{
+                                            newChld.push(n);
+                                        }
+                                    }
+                                    else{
+                                        newChld.push(n);
+                                    }
+                                });
+                                chld=newChld;
                                 if (chld.length==0){
                                     if (p.range().key()==universes.Universe08.ResourceType){
-                                        var error=new hlimpl.BasicASTNode(x, aNode);
-                                        error.errorMessage="property: '"+p.nameId()+"' must be a map"
-                                        res.push(error);
+                                        if (!hasSequenceComposition) {
+                                            var error = new hlimpl.BasicASTNode(x, aNode);
+                                            error.errorMessage = "property: '" + p.nameId() + "' must be a map"
+                                            res.push(error);
+                                        }
                                     }
                                     if (x.valueKind()==yaml.Kind.SCALAR){
                                         if (p.range().key()==universes.Universe08.AbstractSecurityScheme) {
@@ -502,7 +525,8 @@ export class BasicNodeBuilder implements hl.INodeBuilder{
                                             for (var pos=0;pos<actualValue.length;pos++) {
                                                 var vl=actualValue[pos];
                                                 if (vl && p.nameId() == universes.Universe10.Response.properties.body.name) {
-                                                    if (!_.find(x.children(), x=>x.key() == vl)) {
+                                                    var exists=_.find(x.children(), x=>x.key() == vl);
+                                                    if (true) {
                                                         //we can create inherited node;
                                                         var pc = aNode.parent().definition().key();
                                                         var node = new hlimpl.ASTNodeImpl(x, aNode, <any> range, p);
@@ -523,7 +547,9 @@ export class BasicNodeBuilder implements hl.INodeBuilder{
                                                         //this are false unknowns actual unknowns will be reported by parent node
                                                         node._children = ch.filter(x=>!x.isUnknown())
                                                         node._allowQuestion = allowsQuestion;
-                                                        inherited.push(node);
+                                                        if (!exists) {
+                                                            inherited.push(node);
+                                                        }
                                                         node.children().forEach(x=> {
                                                             if (x.property().getAdapter(services.RAMLPropertyService).isKey()) {
                                                                 var atr = <ASTPropImpl>x;
@@ -679,6 +705,7 @@ function getTypeBase(node:hl.IHighLevelNode,expression:string):hl.ITypeDefinitio
         return node.definition().universe().type(universes.Universe10.StringTypeDeclaration.name);
     }
     var pt=node.parsedType();
+
     if (pt.isString()){
         return (node.definition().universe().type(universes.Universe10.StringTypeDeclaration.name));
     }
@@ -710,7 +737,10 @@ function getTypeBase(node:hl.IHighLevelNode,expression:string):hl.ITypeDefinitio
         return (node.definition().universe().type(universes.Universe10.DateOnlyTypeDeclaration.name));
     }
     else if (pt.isTimeOnly()){
-        return (node.definition().universe().type(universes.Universe10.DateOnlyTypeDeclaration.name));
+        return (node.definition().universe().type(universes.Universe10.TimeOnlyTypeDeclaration.name));
+    }
+    if (pt.isUnion()){
+        return (node.definition().universe().type(universes.Universe10.UnionTypeDeclaration.name));
     }
 
     return (node.definition().universe().type(universes.Universe10.TypeDeclaration.name));

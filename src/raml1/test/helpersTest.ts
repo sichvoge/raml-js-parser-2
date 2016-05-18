@@ -706,7 +706,7 @@ describe('Helper methods', function () {
         var resource = tools.collectionItem(api.resources(), 0);
         var method = tools.collectionItem(resource.methods(), 0);
         var header = tools.collectionItem(method.headers(), 0);
-        assert.equal(header.required(), false);
+        assert.equal(header.required(), true);
     });
 
     it('Defaults for Header#required 08', function () {
@@ -852,4 +852,14 @@ describe('Helper methods', function () {
         ].join("\n"))).title();
         assert.equal(title,"My API with Types")
     });
+    it('parse raml from content', function () {
+        var type=(<any>index.parseRAMLSync(["#%RAML 1.0",
+            "title: My API with Types",
+            "types: ",
+            "  X: string |number"
+        ].join("\n"))).types()[0];
+        assert.equal(type.kind(),"UnionTypeDeclaration")
+    });
+
+
 });

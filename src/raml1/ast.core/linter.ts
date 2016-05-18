@@ -26,7 +26,6 @@ import universeProvider=require("../definition-system/universeProvider")
 import services=def
 import typeBuilder=require("./typeBuilder")
 import OverloadingValidator=require("./overloadingValidator")
-import OverloadingValidator08=require("./overloadingValidator08")
 import expander=require("./expander")
 import builder = require('./builder')
 import search = require("./search")
@@ -217,7 +216,16 @@ function isExampleProp(d:hl.IProperty){
     if (d.domain().getAdapter(services.RAMLService).isUserDefined()){
         return false;
     }
-    return (d.nameId()==universes.Universe10.TypeDeclaration.properties.example.name)&&( d.domain().key()!=universes.Universe10.DocumentationItem&& d.domain().key()!=universes.Universe08.DocumentationItem);
+    return (d.nameId()==universes.Universe10.TypeDeclaration.properties.example.name);
+}
+function isSecuredBy(d:hl.IProperty){
+    if (!d.domain()){
+        return;
+    }
+    if (d.domain().getAdapter(services.RAMLService).isUserDefined()){
+        return false;
+    }
+    return (d.nameId()==universes.Universe08.MethodBase.properties.securedBy.name);
 }
 /**
  * For descendants of templates returns template type. Returns null for all other nodes.
@@ -580,14 +588,19 @@ function validateIncludes(node:hl.IParseResult,v:hl.ValidationAcceptor) {
         var vl=node.name();
         if (typeof vl=="string") {
             if (vl != null && vl.indexOf(" ") != -1) {
-                v.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA, "Keys should not have spaces '" + vl + "'", node))
+                v.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA, "Keys should not have spaces '" + vl + "'", node,true))
             }
         }
     }
     val._inc=true;
     if (node.lowLevel()) {
+
         node.lowLevel().includeErrors().forEach(x=> {
-            var em = createIssue(hl.IssueCode.UNABLE_TO_RESOLVE_INCLUDE_FILE, x, node);
+            var isWarn=false;
+            if (node.lowLevel().hasInnerIncludeError()){
+                isWarn=true;
+            }
+            var em = createIssue(hl.IssueCode.UNABLE_TO_RESOLVE_INCLUDE_FILE, x, node,isWarn);
             v.accept(em)
         });
     }
@@ -712,11 +725,14 @@ class CompositePropertyValidator implements PropertyValidator{
                 v.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA,"Scalar is expected here",node))
             }
             else {
-                if (node.lowLevel().valueKind()!=yaml.Kind.SCALAR&&node.lowLevel().valueKind()!=yaml.Kind.INCLUDE_REF&&!node.property().getAdapter(services.RAMLPropertyService).isKey()){
+                var vk=node.lowLevel().valueKind();
+                if (node.lowLevel().valueKind()!=yaml.Kind.INCLUDE_REF&&!node.property().getAdapter(services.RAMLPropertyService).isKey()){
                     if ((!node.property().isMultiValue())) {
                         var k=node.property().range().key();
                         if (k==universes.Universe08.StringType||k==universes.Universe08.MarkdownString||k==universes.Universe08.MimeType) {
-                            v.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA, "property '" + node.name() + "' must be a string", node))
+                            if (vk==yaml.Kind.SEQ||vk==yaml.Kind.MAPPING||vk==yaml.Kind.MAP||((node.property().isRequired()||node.property().nameId()=="mediaType")&&(vk==null||vk===undefined))) {
+                                v.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA, "property '" + node.name() + "' must be a string", node))
+                            }
                         }
                     }
                 }
@@ -770,6 +786,25 @@ class CompositePropertyValidator implements PropertyValidator{
             }
             new ExampleValidator().validate(node, v);
         }
+        if (isSecuredBy(node.property())){
+            if (node.definition().universe().version()=="RAML08"){
+                var np=node.lowLevel().parent();
+                var ysc=yaml.Kind.SEQ;
+                var msg="`securedBy` should be a list in RAML08";
+                if (node.lowLevel() instanceof proxy.LowLevelProxyNode){
+                    if (np.valueKind()!=ysc){
+                        v.accept(createIssue(hl.IssueCode.ILLEGAL_PROPERTY_VALUE,msg,node,false));
+                    }
+                }
+                else{
+                    if (np.kind()!=ysc){
+                        v.accept(createIssue(hl.IssueCode.ILLEGAL_PROPERTY_VALUE,msg,node,false));
+                    }
+                }
+
+            }
+            new ExampleValidator().validate(node, v);
+        }
         if (node.property().nameId()==universes.Universe10.TypeDeclaration.properties.name.name){
             //TODO MOVE TO DEF SYSTEM
             var nameId = node.parent().property()&&node.parent().property().nameId();
@@ -785,6 +820,7 @@ class CompositePropertyValidator implements PropertyValidator{
             new UriValidator().validate(node,v);
             return;
         }
+
         if (range==universes.Universe08.FullUriTemplateString||range==universes.Universe10.FullUriTemplateString){
             new UriValidator().validate(node,v);
             return;
@@ -952,12 +988,12 @@ class NormalValidator implements PropertyValidator{
         var range=pr.range();
 
             var dnode=range.getAdapter(services.RAMLService).getDeclaringNode();
-            if (dnode) {
+            if (dnode&&range.isUserDefined()) {
                 var rof = dnode.parsedType();
                 var dp=node.parent().lowLevel().dumpToObject();
-                var vl=dp[node.parent().name()];
+                var tempVal=dp[node.parent().name()];
                 var isVal=pr.canBeValue();
-                var val=isVal?vl:vl[pr.nameId()];
+                var val=(isVal||(tempVal===null||tempVal===undefined))?tempVal:tempVal[pr.nameId()];
                 var validateObject=rof.validate(val,true);
                 if (!validateObject.isOk()) {
                     validateObject.getErrors().forEach(e=>cb.accept(createIssue(hl.IssueCode.ILLEGAL_PROPERTY_VALUE, e.getMessage(), node, false)));
@@ -1012,7 +1048,15 @@ class NormalValidator implements PropertyValidator{
                             validation=null;
                             return;
                         }
-                        v.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA,"Empty value is not allowed here", node));
+                        if (node.property().isRequired()&&node.value()==null) {
+                            v.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA, "Empty value is not allowed here", node));
+                        }
+                        else{
+                            var ck=node.lowLevel().valueKind();
+                            if (ck==yaml.Kind.MAP||ck==yaml.Kind.SEQ||ck==yaml.Kind.MAPPING){
+                                v.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA, "Empty value is not allowed here", node));
+                            }
+                        }
                     }
                 }
             }
@@ -1022,7 +1066,7 @@ class NormalValidator implements PropertyValidator{
                 if (validation instanceof Error){
                     message=validation.message;
                 }
-                v.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA, message, node));
+                v.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA, message, node,pr.range().key()==universes.Universe08.SchemaString));
             }
         }
         var values=pr.enumOptions();
@@ -1114,7 +1158,8 @@ class MediaTypeValidator implements PropertyValidator{
                 model: 1,
                 multipart: 1,
                 text: 1,
-                video: 1
+                video: 1,
+                binary: 1
             }
             if (!types[res.type]) {
                 cb.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA, "Unknown media type 'type'", node))
@@ -1374,7 +1419,7 @@ function checkReference(pr:def.Property, astNode:hl.IAttribute, vl:string, cb:hl
         var message = referencedToName ? ("Unrecognized " + referencedToName + " '" + vl + "'.") : ("Unresolved reference: " + vl);
 
         var spesializedMessage = specializeReferenceError(message, pr, astNode)
-        cb.accept(createIssue(hl.IssueCode.UNRESOLVED_REFERENCE, spesializedMessage, astNode));
+        cb.accept(createIssue(hl.IssueCode.UNRESOLVED_REFERENCE, spesializedMessage, astNode,pr.range().key()===universes.Universe08.SchemaString));
 
         return true;
     }
@@ -1903,8 +1948,17 @@ class CompositeNodeValidator implements NodeValidator {
 
         }
         if (node.definition().key()==universes.Universe08.GlobalSchema){
-            if (node.lowLevel().valueKind()!=yaml.Kind.SCALAR&&node.lowLevel().valueKind()!=yaml.Kind.INCLUDE_REF){
-                acceptor.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA,"schema "+node.name()+" must be a string",node))
+            if (node.lowLevel().valueKind()!=yaml.Kind.SCALAR){
+                var isString=false;
+                if (node.lowLevel().valueKind()==yaml.Kind.ANCHOR_REF||node.lowLevel().valueKind()==yaml.Kind.INCLUDE_REF){
+                    var vl=node.lowLevel().value();
+                    if (typeof vl==="string"){
+                        isString=true;
+                    }
+                }
+                if (!isString) {
+                    acceptor.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA, "schema " + node.name() + " must be a string", node))
+                }
             }
 
         }
@@ -1948,7 +2002,7 @@ class CompositeNodeValidator implements NodeValidator {
                     requireUrl=true;
                 }
                 else if (vl!=="password"&&vl!=='client_credentials'){
-                    if (vl&&typeof vl==="string"&&vl.indexOf("://")==-1){
+                    if (vl&&typeof vl==="string"&&vl.indexOf("://")==-1&&vl.indexOf(":")==-1){
                         var i = createIssue(hl.IssueCode.NODE_HAS_VALUE, "authorizationGrants should be one of authorization_code,implicit,password,client_credentials or to be an abolute URI", x)
                         acceptor.accept(i);
                     }
@@ -2211,7 +2265,7 @@ class OverlayNodesValidator implements NodeValidator{
 
         //otherwise reporting an illegal node:
         v.accept(createIssue(hl.IssueCode.ONLY_OVERRIDE_ALLOWED,
-            "This node does not override any node from master api:" + node.id(), node));
+            "The '"+node.id()+"' node does not match any node of the master api.", node));
     }
 
     private validateProperties(node:hl.IHighLevelNode, acceptor:hl.ValidationAcceptor) : void {
@@ -2267,9 +2321,10 @@ class OverlayNodesValidator implements NodeValidator{
 
 class RecurrentOverlayValidator implements  NodeValidator{
     validate(node:hl.IHighLevelNode,v:hl.ValidationAcceptor){
+        
         var z=new OverlayNodesValidator();
         z.validate(node,v);
-        node.elements().forEach(x=>this.validate(x,v));
+        node.directChildren().forEach(x=>{ if (x.isElement()) {this.validate(x.asElement(),v)}});
     }
 }
 class RecurrentValidateChildrenKeys implements NodeValidator{
@@ -2624,11 +2679,16 @@ export class ExampleValidator implements PropertyValidator{
                         return null;
                     }
                 }
+
                 if(so){
                     return {
                         validate(pObje:any,cb:hl.ValidationAcceptor,strict:boolean){
                             try {
                                 if (pObje.__$validated){
+                                    return;
+                                }
+                                if (so instanceof Error){
+                                    cb.accept(createIssue(hl.IssueCode.INVALID_VALUE_SCHEMA,so.message,node,!strict));
                                     return;
                                 }
                                 so.validateObject(pObje);
@@ -2693,6 +2753,9 @@ export class ExampleValidator implements PropertyValidator{
                     }
                     if (typeof pObje === "boolean" && pt.isString()) {
                         pObje = "" + pObje;
+                    }
+                    if (pt.getExtra("repeat")){
+                        pObje=[pObje];
                     }
                     var validateObject = pt.validate(pObje, true);
                     if (!validateObject.isOk()) {
@@ -3171,7 +3234,6 @@ var localLowLevelError = function (node:ll.ILowLevelASTNode, highLevelAnchor : h
         unit:node?node.unit():null
     }
 };
-
 export function createIssue(c:hl.IssueCode, message:string,node:hl.IParseResult,w:boolean=false):hl.ValidationIssue{
     //console.log(node.name()+node.lowLevel().start()+":"+node.id());
     var original=null;

@@ -55,6 +55,11 @@ export class CompilationUnit implements lowlevel.ICompilationUnit{
         return this._node;
     }
 
+    expandedHighLevel():highlevel.IParseResult
+    {
+        return this.highLevel();
+    }
+
     isDirty(){
         return true;
     }
@@ -136,6 +141,9 @@ export class AstNode implements lowlevel.ILowLevelASTNode{
         return null;
     }
     isAnnotatedScalar(){
+        return false;
+    }
+    hasInnerIncludeError(){
         return false;
     }
 
