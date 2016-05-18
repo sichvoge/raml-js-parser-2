@@ -392,7 +392,9 @@ export function convertRuntimeHierarchyToIDE(type:ramlTypes.IParsedType, root:hl
 
     if (!runtimeNominal) return null;
 
-    var ideNominal = runtimeNominal.clone();
+    var cloningContext = new ramlTypes.nominalTypes.TypeCachingCloningContext();
+
+    var ideNominal = runtimeNominal.clone(cloningContext);
 
     ideNominal.visit(new PropertiesCleaningVisitor());
 
