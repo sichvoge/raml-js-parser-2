@@ -332,7 +332,8 @@ function transform(u:hl.IUniverse){
 }
 
 
-export function convertType(root:hl.IHighLevelNode,t:ramlTypes.IParsedType):hl.ITypeDefinition{
+export function convertType(root:hl.IHighLevelNode,t:ramlTypes.IParsedType,
+    saveNominal=true):hl.ITypeDefinition{
     var node= _.find(root.elementsOfKind("types"),x=>x.name()== t.name());
     if (node) {
         ramlTypes.setPropertyConstructor(x=> {
@@ -352,7 +353,9 @@ export function convertType(root:hl.IHighLevelNode,t:ramlTypes.IParsedType):hl.I
         });
     }
     var u=transform(root.definition().universe());
-    return ramlTypes.toNominal(t,u);
+    if (saveNominal){
+        return ramlTypes.toNominal(t, u, saveNominal);
+    } else return null;
 }
 
 class PropertiesCleaningVisitor {
@@ -388,18 +391,19 @@ class FacetToPropertiesConvertingVisitor {
 }
 
 export function convertRuntimeHierarchyToIDE(type:ramlTypes.IParsedType, root:hl.IHighLevelNode):hl.ITypeDefinition {
-    var runtimeNominal = convertType(root, type);
+    var runtimeNominal = convertType(root, type, false);
 
-    if (!runtimeNominal) return null;
+    // if (!runtimeNominal) return null;
 
     var cloningContext = new ramlTypes.nominalTypes.TypeCachingCloningContext();
 
-    var ideNominal = runtimeNominal.clone(cloningContext);
+    // var ideNominal = runtimeNominal.clone(cloningContext);
 
-    ideNominal.visit(new PropertiesCleaningVisitor());
+    // ideNominal.visit(new PropertiesCleaningVisitor());
+    //
+    // ideNominal.visit(new FacetToPropertiesConvertingVisitor());
 
-    ideNominal.visit(new FacetToPropertiesConvertingVisitor());
-    // convertFacetsToProperties(ideNominal);
 
-    return ideNominal;
+    // return ideNominal;
+    return null;
 }
