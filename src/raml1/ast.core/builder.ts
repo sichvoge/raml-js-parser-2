@@ -750,9 +750,9 @@ function getType(node:hl.IHighLevelNode,expression:string):hl.ITypeDefinition{
     var typeBase = getTypeBase(node, expression);
 
     var ideType = typeBuilder.convertRuntimeHierarchyToIDE(node.parsedType(), node.root());
-    // (<any>ideType)._superTypes.push(typeBase);
+    (<any>ideType)._superTypes.push(typeBase);
 
-    return typeBase;
+    return ideType;
 }
 
 function desc1(p:hl.IProperty, parent:hl.IHighLevelNode, x:hl.IHighLevelNode):hl.ITypeDefinition{
