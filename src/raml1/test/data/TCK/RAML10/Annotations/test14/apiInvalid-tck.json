@@ -1,0 +1,157 @@
+{
+  "ramlVersion": "RAML10",
+  "type": "Api",
+  "specification": {
+    "types": [
+      {
+        "QQQ": {
+          "name": "QQQ",
+          "displayName": "QQQ",
+          "type": [
+            "object"
+          ],
+          "repeat": false,
+          "required": true,
+          "properties": {
+            "zz": {
+              "name": "zz",
+              "displayName": "zz",
+              "type": [
+                "string"
+              ],
+              "repeat": false,
+              "required": true,
+              "__METADATA__": {
+                "primitiveValuesMeta": {
+                  "displayName": {
+                    "calculated": true
+                  },
+                  "repeat": {
+                    "insertedAsDefault": true
+                  },
+                  "required": {
+                    "insertedAsDefault": true
+                  }
+                }
+              }
+            }
+          },
+          "__METADATA__": {
+            "primitiveValuesMeta": {
+              "displayName": {
+                "calculated": true
+              },
+              "type": {
+                "insertedAsDefault": true
+              },
+              "repeat": {
+                "insertedAsDefault": true
+              },
+              "required": {
+                "insertedAsDefault": true
+              }
+            }
+          }
+        }
+      }
+    ],
+    "annotationTypes": [
+      {
+        "Resource metadata": {
+          "name": "meta",
+          "displayName": "Resource metadata",
+          "type": [
+            "string"
+          ],
+          "repeat": false,
+          "required": true,
+          "description": "Metadata for this resource",
+          "allowedTargets": [
+            "Resource"
+          ],
+          "__METADATA__": {
+            "primitiveValuesMeta": {
+              "repeat": {
+                "insertedAsDefault": true
+              },
+              "required": {
+                "insertedAsDefault": true
+              }
+            }
+          }
+        }
+      }
+    ],
+    "title": "Annotations 14",
+    "resources": [
+      {
+        "annotations": {
+          "meta": [
+            {
+              "structuredValue": "users.gif",
+              "name": "meta"
+            },
+            {
+              "structuredValue": "asdsd",
+              "name": "meta"
+            }
+          ]
+        },
+        "relativeUri": "/users",
+        "displayName": "/users",
+        "__METADATA__": {
+          "primitiveValuesMeta": {
+            "displayName": {
+              "calculated": true
+            }
+          }
+        },
+        "relativeUriPathSegments": [
+          "users"
+        ]
+      }
+    ]
+  },
+  "errors": [
+    {
+      "code": 4,
+      "message": "Resource property already used: '(meta)'",
+      "path": "apiInvalid.raml",
+      "line": 15,
+      "column": 2,
+      "position": 323,
+      "range": [
+        {
+          "line": 15,
+          "column": 2,
+          "position": 323
+        },
+        {
+          "line": 15,
+          "column": 8,
+          "position": 329
+        }
+      ]
+    },
+    {
+      "code": 4,
+      "message": "Resource property already used: '(meta)'",
+      "path": "apiInvalid.raml",
+      "line": 16,
+      "column": 2,
+      "position": 343,
+      "range": [
+        {
+          "line": 16,
+          "column": 2,
+          "position": 343
+        },
+        {
+          "line": 16,
+          "column": 8,
+          "position": 349
+        }
+      ]
+    }
+  ]
+}

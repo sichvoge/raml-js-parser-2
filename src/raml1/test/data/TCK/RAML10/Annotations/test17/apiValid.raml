@@ -1,0 +1,21 @@
+#%RAML 1.0
+title: ss
+types:
+  DDD:
+    properties:
+      xx: number
+  TargetType:
+
+    properties:
+
+      aaa: string
+annotationTypes:
+   MM:
+     type: DDD
+     allowedTargets: API
+traits:
+   trait1:
+      headers:
+        header1:
+(MM):
+  xx: 11

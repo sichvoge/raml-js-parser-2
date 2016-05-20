@@ -1,0 +1,20 @@
+#%RAML 1.0
+---
+title: Test
+mediaType: multipart/form-data
+baseUri: http://myapi.org
+
+annotationTypes:
+  TestAnnotation:
+    type: string
+    allowedTargets: SecuritySchemeSettings
+
+securitySchemes:
+  TestScheme:
+    type: OAuth 1.0
+    (TestAnnotation): dsf
+    settings:
+      (TestAnnotation): dsf
+      requestTokenUri: asf
+      authorizationUri: asdasd
+      tokenCredentialsUri: asdas

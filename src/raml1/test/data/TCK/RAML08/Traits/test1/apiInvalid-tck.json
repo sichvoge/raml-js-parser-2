@@ -1,0 +1,115 @@
+{
+  "ramlVersion": "RAML08",
+  "type": "Api",
+  "specification": {
+    "title": "A",
+    "traits": [
+      {
+        "SomeTrait": {
+          "queryParameters": {
+            "aaa": {
+              "name": "aaa",
+              "displayName": "aaa",
+              "type": "number",
+              "required": false,
+              "repeat": false,
+              "__METADATA__": {
+                "primitiveValuesMeta": {
+                  "displayName": {
+                    "calculated": true
+                  },
+                  "required": {
+                    "insertedAsDefault": true
+                  },
+                  "repeat": {
+                    "insertedAsDefault": true
+                  }
+                }
+              }
+            }
+          },
+          "name": "SomeTrait"
+        }
+      }
+    ],
+    "resources": [
+      {
+        "relativeUri": "/resource",
+        "methods": [
+          {
+            "responses": {
+              "200": {
+                "code": "200",
+                "body": {
+                  "application/json": {
+                    "name": "application/json"
+                  }
+                }
+              }
+            },
+            "queryParameters": {
+              "aaa": {
+                "name": "aaa",
+                "displayName": "aaa",
+                "type": "number",
+                "required": false,
+                "example": "s111",
+                "repeat": false,
+                "__METADATA__": {
+                  "primitiveValuesMeta": {
+                    "displayName": {
+                      "calculated": true
+                    },
+                    "required": {
+                      "insertedAsDefault": true
+                    },
+                    "repeat": {
+                      "insertedAsDefault": true
+                    }
+                  }
+                }
+              }
+            },
+            "method": "get",
+            "is": [
+              "SomeTrait"
+            ]
+          }
+        ],
+        "displayName": "/resource",
+        "__METADATA__": {
+          "primitiveValuesMeta": {
+            "displayName": {
+              "calculated": true
+            }
+          }
+        },
+        "relativeUriPathSegments": [
+          "resource"
+        ]
+      }
+    ]
+  },
+  "errors": [
+    {
+      "code": 11,
+      "message": "number is expected",
+      "path": "apiInvalid.raml",
+      "line": 15,
+      "column": 8,
+      "position": 184,
+      "range": [
+        {
+          "line": 15,
+          "column": 8,
+          "position": 184
+        },
+        {
+          "line": 15,
+          "column": 15,
+          "position": 191
+        }
+      ]
+    }
+  ]
+}
