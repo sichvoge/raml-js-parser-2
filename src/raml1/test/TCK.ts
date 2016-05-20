@@ -639,6 +639,82 @@ describe('TCK. Annotations tests.', function () {
     });
 });
 
+describe('TCK. Security Schemes tests.', function () {
+    it("Security schemas allowed types.", function () {
+        testAPI('TCK/RAML10/SecuritySchemes/test1/apiValid.raml');
+    });
+
+    it("Security schemas allowed types. Negative example test.", function () {
+        testAPI('TCK/RAML10/SecuritySchemes/test1/apiInvalid.raml');
+    });
+
+    it("Described by allowed nodes.", function () {
+        testAPI('TCK/RAML10/SecuritySchemes/test2/apiValid.raml');
+    });
+
+    it("Described by allowed nodes. Negative example test.", function () {
+        testAPI('TCK/RAML10/SecuritySchemes/test2/apiInvalid.raml');
+    });
+
+    it("OAuth 1.0 setting required nodes.", function () {
+        testAPI('TCK/RAML10/SecuritySchemes/test3/apiValid.raml');
+    });
+
+    it("OAuth 1.0 setting required nodes. Negative example test.", function () {
+        testAPI('TCK/RAML10/SecuritySchemes/test3/apiInvalid.raml');
+    });
+
+    it("OAuth 2.0 setting required nodes.", function () {
+        testAPI('TCK/RAML10/SecuritySchemes/test4/apiValid.raml');
+    });
+
+    it("OAuth 2.0 setting required nodes. Negative example test.", function () {
+        testAPI('TCK/RAML10/SecuritySchemes/test4/apiInvalid.raml');
+    });
+
+    it("OAuth 2.0 authorizationGrants allowed items.", function () {
+        testAPI('TCK/RAML10/SecuritySchemes/test5/apiValid.raml');
+    });
+
+    it("OAuth 2.0 authorizationGrants allowed items. Negative example test.", function () {
+        testAPI('TCK/RAML10/SecuritySchemes/test5/apiInvalid.raml');
+    });
+});
+
+describe('TCK. RAML0.8 Security Schemes tests.', function () {
+    it("Security schemas allowed types.", function () {
+        testAPI('TCK/RAML08/SecuritySchemes/test1/apiValid.raml');
+    });
+
+    it("Security schemas allowed types. Negative example test.", function () {
+        testAPI('TCK/RAML08/SecuritySchemes/test1/apiInvalid.raml');
+    });
+
+    it("Described by allowed nodes.", function () {
+        testAPI('TCK/RAML08/SecuritySchemes/test2/apiValid.raml');
+    });
+
+    it("Described by allowed nodes. Negative example test.", function () {
+        testAPI('TCK/RAML08/SecuritySchemes/test2/apiInvalid.raml');
+    });
+
+    it("OAuth 1.0 setting required nodes.", function () {
+        testAPI('TCK/RAML08/SecuritySchemes/test3/apiValid.raml');
+    });
+
+    it("OAuth 1.0 setting required nodes. Negative example test.", function () {
+        testAPI('TCK/RAML08/SecuritySchemes/test3/apiInvalid.raml');
+    });
+
+    it("OAuth 2.0 setting required nodes.", function () {
+        testAPI('TCK/RAML08/SecuritySchemes/test4/apiValid.raml');
+    });
+
+    it("OAuth 2.0 setting required nodes. Negative example test.", function () {
+        testAPI('TCK/RAML08/SecuritySchemes/test4/apiInvalid.raml');
+    });
+});
+
 describe('TCK tests',function() {
 
     it("Fragments 001", function () {
