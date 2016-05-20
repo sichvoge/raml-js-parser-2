@@ -334,28 +334,30 @@ function transform(u:hl.IUniverse){
 
 export function convertType(root:hl.IHighLevelNode,t:ramlTypes.IParsedType,
     saveNominal=true):hl.ITypeDefinition{
-    var node= _.find(root.elementsOfKind("types"),x=>x.name()== t.name());
-    if (node) {
-        ramlTypes.setPropertyConstructor(x=> {
-            var v = new defs.UserDefinedProp(x);
-            var rs = node.elementsOfKind("properties").filter(y=>y.name() == x);
-            if (rs&&rs.length>0) {
-                v._node = rs[0];
-            }
-            else {
-                var rs = node.elementsOfKind("facets").filter(y=>y.name() == x);
-                if (rs&&rs.length>0) {
+    if (saveNominal) {
+        var node = _.find(root.elementsOfKind("types"), x=>x.name() == t.name());
+        if (node) {
+            ramlTypes.setPropertyConstructor(x=> {
+                var v = new defs.UserDefinedProp(x);
+                var rs = node.elementsOfKind("properties").filter(y=>y.name() == x);
+                if (rs && rs.length > 0) {
                     v._node = rs[0];
                 }
-            }
-            v.unmerge();
-            return v;
-        });
+                else {
+                    var rs = node.elementsOfKind("facets").filter(y=>y.name() == x);
+                    if (rs && rs.length > 0) {
+                        v._node = rs[0];
+                    }
+                }
+                v.unmerge();
+                return v;
+            });
+        }
     }
     var u=transform(root.definition().universe());
-    if (saveNominal){
-        return ramlTypes.toNominal(t, u, saveNominal);
-    } else return null;
+
+    return ramlTypes.toNominal(t, u, saveNominal);
+
 }
 
 class PropertiesCleaningVisitor {
@@ -393,17 +395,17 @@ class FacetToPropertiesConvertingVisitor {
 export function convertRuntimeHierarchyToIDE(type:ramlTypes.IParsedType, root:hl.IHighLevelNode):hl.ITypeDefinition {
     var runtimeNominal = convertType(root, type, false);
 
-    // if (!runtimeNominal) return null;
+    if (!runtimeNominal) return null;
 
     var cloningContext = new ramlTypes.nominalTypes.TypeCachingCloningContext();
 
-    // var ideNominal = runtimeNominal.clone(cloningContext);
+    var ideNominal = runtimeNominal.clone(cloningContext);
 
-    // ideNominal.visit(new PropertiesCleaningVisitor());
+    ideNominal.visit(new PropertiesCleaningVisitor());
     //
-    // ideNominal.visit(new FacetToPropertiesConvertingVisitor());
+    ideNominal.visit(new FacetToPropertiesConvertingVisitor());
 
 
-    // return ideNominal;
-    return null;
+    return ideNominal;
+    
 }
