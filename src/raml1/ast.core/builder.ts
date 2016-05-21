@@ -752,6 +752,7 @@ function getType(node:hl.IHighLevelNode,expression:string):hl.ITypeDefinition{
     var ideType = typeBuilder.convertRuntimeHierarchyToIDE(node.parsedType(), node.root());
     (<any>ideType)._superTypes.push(typeBase);
 
+    (<any>ideType)._universe = typeBase.universe();
     return ideType;
 }
 
