@@ -364,6 +364,7 @@ class PropertiesCleaningVisitor {
     typeEncountered(type: hl.ITypeDefinition): boolean {
         if (type instanceof defs.typeSystem.StructuredType) {
             (<defs.typeSystem.StructuredType>type)._properties = [];
+            (<defs.typeSystem.StructuredType>type)._props = null;
         }
         return true;
     }
