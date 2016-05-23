@@ -5,6 +5,8 @@ import defs=require("raml-definition-system")
 import hl=require("../highLevelAST")
 import ll=require("../lowLevelAST")
 import yaml=require("yaml-ast-parser")
+import ramlTypes=defs.rt;
+
 import _=require("underscore")
 import def=defs
 import high=require("../highLevelAST");
@@ -743,26 +745,49 @@ function getType(node:hl.IHighLevelNode,expression:string):hl.ITypeDefinition{
     return (node.definition().universe().type(universes.Universe10.TypeDeclaration.name));
 }
 
-
+function transform(u:hl.IUniverse){
+    return function (x){
+        var m=u.type(x);
+        if (!m){
+            var ut=new defs.UserDefinedClass("",<defs.Universe>u,null,"","");
+        }
+        return m;
+    }
+}
 
 function desc1(p:hl.IProperty, parent:hl.IHighLevelNode, x:hl.IHighLevelNode):hl.ITypeDefinition{
     var tp=x.attr("type");
     var value="";
     if (tp){
-        var mn:{ [name:string]:hl.ITypeDefinition}={};
-        var c=new def.NodeClass(x.name(),<def.Universe>x.definition().universe(),"")
-        c.getAdapter(services.RAMLService).setDeclaringNode(x);
-        c._superTypes.push(x.definition().universe().type(universes.Universe10.TypeDeclaration.name));
-        mn[tp.value()]=c;
         var newType= getType(x,tp.value());
-        if (newType) {
-            if (newType.superTypes().length == 0) {
-                (<def.NodeClass>newType)._superTypes.push(x.definition().universe().type(universes.Universe10.TypeDeclaration.name));
+        // if (newType) {
+        //     if (newType.superTypes().length == 0) {
+        //         (<def.NodeClass>newType)._superTypes.push(x.definition().universe().type(universes.Universe10.TypeDeclaration.name));
+        //
+        //     }
+        // }
+        var s=new defs.NodeClass(x.name(),<def.Universe>x.definition().universe(),"","");
+        var pt=x.parsedType();
+        pt.allFacets().forEach(z=>{
+            if ((<any>z.constructor).name==="FacetDeclaration") {
+                var m = new defs.Property(z.facetName(), "");
+                m.withRange(parent.definition().universe().type("StringType"));
+                m.withDomain(s);
+                m.withGroupName(z.facetName());
+                m.withRequired(false);
+                z.value();
 
+                ramlTypes.setPropertyConstructor(x=> {
+                    var v = new defs.Property(x, "");;
+                    v.unmerge();
+                    return v;
+                });
+                m.withRange(ramlTypes.toNominal(z.value(),transform(x.definition().universe())))
             }
-        }
+        })
 
-        return newType;
+        s._superTypes.push(newType);
+        return s;
     }
     else{
         var propertiesName = universes.Universe10.ObjectTypeDeclaration.properties.properties.name;
