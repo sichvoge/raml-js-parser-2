@@ -1,21 +1,21 @@
 #%RAML 1.0
-title: ss
+title: MyApi
 types:
-  DDD:
+  MyType:
     properties:
-      xx: number
+      numberProp: number
   TargetType:
 
     properties:
 
-      aaa: string
+      stringParam: string
 annotationTypes:
-   MM:
-     type: DDD
+   MyAnnotation:
+     type: MyType
      allowedTargets: API
 traits:
    trait1:
       headers:
         header1:
-(MM):
-  xx: 11
+(MyAnnotation):
+  numberProp: 11

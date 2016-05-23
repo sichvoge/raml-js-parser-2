@@ -4,7 +4,7 @@ title: A
 traits:
   - SomeTrait:
       queryParameters:
-        aaa:
+        numericParam:
           type: number
 
 
@@ -12,8 +12,8 @@ traits:
   get:
     is:  [SomeTrait]
     queryParameters:
-      aaa:
-        example: s111
+      numericParam:
+        example: stringValue
     responses:
       200:
         body:

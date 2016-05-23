@@ -1,11 +1,11 @@
 #%RAML 1.0
-title: ss
+title: MyApi
 types:
-  DDD:
+  MyType:
     properties:
-      xx: number
+      numberProp: number
 annotationTypes:
-   MM: DDD
+   MyAnnotation: MyType
 
-(MM):
-  xx: 10
+(MyAnnotation):
+  numberProp: 10
