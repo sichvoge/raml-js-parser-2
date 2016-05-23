@@ -242,7 +242,7 @@
                 "displayName": "b",
                 "type": "string",
                 "required": false,
-                "example": "asdasd",
+                "example": "stringValue",
                 "repeat": false,
                 "__METADATA__": {
                   "primitiveValuesMeta": {
@@ -324,17 +324,17 @@
       "path": "apiInvalid.raml",
       "line": 40,
       "column": 8,
-      "position": 838,
+      "position": 843,
       "range": [
         {
           "line": 40,
           "column": 8,
-          "position": 838
+          "position": 843
         },
         {
           "line": 40,
           "column": 15,
-          "position": 845
+          "position": 850
         }
       ]
     }

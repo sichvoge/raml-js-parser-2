@@ -13,9 +13,9 @@
           "repeat": false,
           "required": true,
           "properties": {
-            "ee": {
-              "name": "ee",
-              "displayName": "ee",
+            "prop1": {
+              "name": "prop1",
+              "displayName": "prop1",
               "type": [
                 "number"
               ],

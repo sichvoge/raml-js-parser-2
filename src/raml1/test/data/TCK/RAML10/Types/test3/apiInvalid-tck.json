@@ -124,7 +124,7 @@
           ],
           "example": {
             "someProperty": {
-              "name": "asdasd",
+              "name": "stringValue",
               "age": "123s"
             }
           },
@@ -170,7 +170,7 @@
           "structuredExample": {
             "value": {
               "someProperty": {
-                "name": "asdasd",
+                "name": "stringValue",
                 "age": "123s"
               }
             },
@@ -178,7 +178,7 @@
             "name": null,
             "structuredValue": {
               "someProperty": {
-                "name": "asdasd",
+                "name": "stringValue",
                 "age": "123s"
               }
             }
@@ -215,17 +215,17 @@
       "path": "apiInvalid.raml",
       "line": 23,
       "column": 8,
-      "position": 324,
+      "position": 329,
       "range": [
         {
           "line": 23,
           "column": 8,
-          "position": 324
+          "position": 329
         },
         {
           "line": 23,
           "column": 11,
-          "position": 327
+          "position": 332
         }
       ]
     }

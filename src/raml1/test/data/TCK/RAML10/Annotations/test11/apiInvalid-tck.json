@@ -5,10 +5,10 @@
     "annotations": {
       "hello": {
         "structuredValue": {
-          "kk": {
-            "f": {
+          "persons": {
+            "156798654": {
               "Alice": {
-                "name1": "asd"
+                "name1": "stringValue"
               }
             }
           }
@@ -182,9 +182,9 @@
           "repeat": false,
           "required": true,
           "properties": {
-            "kk": {
-              "name": "kk",
-              "displayName": "kk",
+            "persons": {
+              "name": "persons",
+              "displayName": "persons",
               "type": [
                 "MapOfPerson"
               ],
@@ -249,17 +249,17 @@
       "path": "apiInvalid.raml",
       "line": 18,
       "column": 3,
-      "position": 235,
+      "position": 240,
       "range": [
         {
           "line": 18,
           "column": 3,
-          "position": 235
+          "position": 240
         },
         {
           "line": 18,
-          "column": 5,
-          "position": 237
+          "column": 10,
+          "position": 247
         }
       ]
     },
@@ -269,17 +269,17 @@
       "path": "apiInvalid.raml",
       "line": 18,
       "column": 3,
-      "position": 235,
+      "position": 240,
       "range": [
         {
           "line": 18,
           "column": 3,
-          "position": 235
+          "position": 240
         },
         {
           "line": 18,
-          "column": 5,
-          "position": 237
+          "column": 10,
+          "position": 247
         }
       ]
     }

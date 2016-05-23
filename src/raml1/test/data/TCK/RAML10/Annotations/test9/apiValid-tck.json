@@ -13,9 +13,9 @@
           "repeat": false,
           "required": true,
           "properties": {
-            "ee": {
-              "name": "ee",
-              "displayName": "ee",
+            "prop1": {
+              "name": "prop1",
+              "displayName": "prop1",
               "type": [
                 "number"
               ],
@@ -108,21 +108,21 @@
   "errors": [
     {
       "code": 11,
-      "message": "Required property: ee is missed",
+      "message": "Required property: prop1 is missed",
       "path": "apiValid.raml",
       "line": 9,
       "column": 2,
-      "position": 160,
+      "position": 163,
       "range": [
         {
           "line": 9,
           "column": 2,
-          "position": 160
+          "position": 163
         },
         {
           "line": 9,
           "column": 10,
-          "position": 168
+          "position": 171
         }
       ]
     }

@@ -145,8 +145,8 @@
             "name": "Label"
           }
         },
-        "relativeUri": "/hee",
-        "displayName": "/hee",
+        "relativeUri": "/resource",
+        "displayName": "/resource",
         "__METADATA__": {
           "primitiveValuesMeta": {
             "displayName": {
@@ -155,7 +155,7 @@
           }
         },
         "relativeUriPathSegments": [
-          "hee"
+          "resource"
         ]
       }
     ],
@@ -174,17 +174,17 @@
       "path": "apiInvalid.raml",
       "line": 16,
       "column": 6,
-      "position": 238,
+      "position": 243,
       "range": [
         {
           "line": 16,
           "column": 6,
-          "position": 238
+          "position": 243
         },
         {
           "line": 16,
           "column": 11,
-          "position": 243
+          "position": 248
         }
       ]
     }

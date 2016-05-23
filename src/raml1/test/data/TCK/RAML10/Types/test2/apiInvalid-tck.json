@@ -73,7 +73,7 @@
           ],
           "example": {
             "name1": "somestring",
-            "age": "asd"
+            "age": "stringValue"
           },
           "repeat": false,
           "required": true,
@@ -117,13 +117,13 @@
           "structuredExample": {
             "value": {
               "name1": "somestring",
-              "age": "asd"
+              "age": "stringValue"
             },
             "strict": true,
             "name": null,
             "structuredValue": {
               "name1": "somestring",
-              "age": "asd"
+              "age": "stringValue"
             }
           }
         }

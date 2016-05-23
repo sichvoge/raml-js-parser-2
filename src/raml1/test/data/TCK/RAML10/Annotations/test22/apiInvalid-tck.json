@@ -3,27 +3,27 @@
   "type": "Api",
   "specification": {
     "annotations": {
-      "MM": {
+      "MyAnnotation": {
         "structuredValue": {
-          "xx": "10s"
+          "numberProp": "10s"
         },
-        "name": "MM"
+        "name": "MyAnnotation"
       }
     },
     "types": [
       {
-        "DDD": {
-          "name": "DDD",
-          "displayName": "DDD",
+        "MyType": {
+          "name": "MyType",
+          "displayName": "MyType",
           "type": [
             "object"
           ],
           "repeat": false,
           "required": true,
           "properties": {
-            "xx": {
-              "name": "xx",
-              "displayName": "xx",
+            "numberProp": {
+              "name": "numberProp",
+              "displayName": "numberProp",
               "type": [
                 "number"
               ],
@@ -65,11 +65,11 @@
     ],
     "annotationTypes": [
       {
-        "MM": {
-          "name": "MM",
-          "displayName": "MM",
+        "MyAnnotation": {
+          "name": "MyAnnotation",
+          "displayName": "MyAnnotation",
           "type": [
-            "DDD"
+            "MyType"
           ],
           "repeat": false,
           "required": true,
@@ -89,7 +89,7 @@
         }
       }
     ],
-    "title": "ss"
+    "title": "MyApi"
   },
   "errors": [
     {
@@ -98,17 +98,17 @@
       "path": "apiInvalid.raml",
       "line": 10,
       "column": 2,
-      "position": 105,
+      "position": 142,
       "range": [
         {
           "line": 10,
           "column": 2,
-          "position": 105
+          "position": 142
         },
         {
           "line": 10,
-          "column": 4,
-          "position": 107
+          "column": 12,
+          "position": 152
         }
       ]
     }

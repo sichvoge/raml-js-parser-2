@@ -242,7 +242,7 @@
                 "displayName": "b",
                 "type": "string",
                 "required": false,
-                "example": "asdasd",
+                "example": "stringValue",
                 "repeat": false,
                 "__METADATA__": {
                   "primitiveValuesMeta": {

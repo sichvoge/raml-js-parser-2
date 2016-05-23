@@ -13,9 +13,9 @@
           "repeat": false,
           "required": true,
           "properties": {
-            "ee": {
-              "name": "ee",
-              "displayName": "ee",
+            "prop1": {
+              "name": "prop1",
+              "displayName": "prop1",
               "type": [
                 "number"
               ],
@@ -80,7 +80,7 @@
         "annotations": {
           "suborg": {
             "structuredValue": {
-              "ee": 4,
+              "prop1": 4,
               "manager": {
                 "name": "Tom"
               },
@@ -114,17 +114,17 @@
       "path": "apiInvalid.raml",
       "line": 9,
       "column": 2,
-      "position": 160,
+      "position": 163,
       "range": [
         {
           "line": 9,
           "column": 2,
-          "position": 160
+          "position": 163
         },
         {
           "line": 9,
           "column": 10,
-          "position": 168
+          "position": 171
         }
       ]
     }

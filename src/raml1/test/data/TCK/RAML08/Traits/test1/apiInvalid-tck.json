@@ -7,9 +7,9 @@
       {
         "SomeTrait": {
           "queryParameters": {
-            "aaa": {
-              "name": "aaa",
-              "displayName": "aaa",
+            "numericParam": {
+              "name": "numericParam",
+              "displayName": "numericParam",
               "type": "number",
               "required": false,
               "repeat": false,
@@ -48,12 +48,12 @@
               }
             },
             "queryParameters": {
-              "aaa": {
-                "name": "aaa",
-                "displayName": "aaa",
+              "numericParam": {
+                "name": "numericParam",
+                "displayName": "numericParam",
                 "type": "number",
                 "required": false,
-                "example": "s111",
+                "example": "stringValue",
                 "repeat": false,
                 "__METADATA__": {
                   "primitiveValuesMeta": {
@@ -97,17 +97,17 @@
       "path": "apiInvalid.raml",
       "line": 15,
       "column": 8,
-      "position": 184,
+      "position": 202,
       "range": [
         {
           "line": 15,
           "column": 8,
-          "position": 184
+          "position": 202
         },
         {
           "line": 15,
           "column": 15,
-          "position": 191
+          "position": 209
         }
       ]
     }

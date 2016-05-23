@@ -7,9 +7,9 @@
       {
         "SomeTrait": {
           "queryParameters": {
-            "aaa": {
-              "name": "aaa",
-              "displayName": "aaa",
+            "numericParam": {
+              "name": "numericParam",
+              "displayName": "numericParam",
               "type": "number",
               "required": false,
               "repeat": false,
@@ -48,9 +48,9 @@
               }
             },
             "queryParameters": {
-              "aaa": {
-                "name": "aaa",
-                "displayName": "aaa",
+              "numericParam": {
+                "name": "numericParam",
+                "displayName": "numericParam",
                 "type": "number",
                 "required": false,
                 "example": "111",

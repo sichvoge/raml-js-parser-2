@@ -277,9 +277,9 @@
                   "Type1"
                 ],
                 "example": {
-                  "propertyFromType1": "asdasd",
-                  "propertyFromResourceType1": "asdsdas",
-                  "extraProperty": "asdasd"
+                  "propertyFromType1": "stringValue1",
+                  "propertyFromResourceType1": "stringValue2",
+                  "extraProperty": "stringValue3"
                 },
                 "repeat": false,
                 "required": true,
@@ -344,16 +344,16 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "propertyFromType1": "asdasd",
-                    "propertyFromResourceType1": "asdsdas",
-                    "extraProperty": "asdasd"
+                    "propertyFromType1": "stringValue1",
+                    "propertyFromResourceType1": "stringValue2",
+                    "extraProperty": "stringValue3"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "propertyFromType1": "asdasd",
-                    "propertyFromResourceType1": "asdsdas",
-                    "extraProperty": "asdasd"
+                    "propertyFromType1": "stringValue1",
+                    "propertyFromResourceType1": "stringValue2",
+                    "extraProperty": "stringValue3"
                   }
                 }
               }
@@ -409,17 +409,17 @@
       "path": "apiInvalid.raml",
       "line": 42,
       "column": 12,
-      "position": 847,
+      "position": 853,
       "range": [
         {
           "line": 42,
           "column": 12,
-          "position": 847
+          "position": 853
         },
         {
           "line": 42,
           "column": 37,
-          "position": 872
+          "position": 878
         }
       ]
     }

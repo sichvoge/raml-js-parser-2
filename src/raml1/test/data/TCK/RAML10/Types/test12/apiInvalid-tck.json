@@ -16,13 +16,13 @@
                 "selfReference": [
                   {
                     "selfReference": [],
-                    "someProperty1": "asdas"
+                    "someProperty1": "val1"
                   }
                 ],
-                "someProperty": "aassdas"
+                "someProperty": "val2"
               }
             ],
-            "someProperty": "asdasd"
+            "someProperty": "val3"
           },
           "repeat": false,
           "required": true,
@@ -92,13 +92,13 @@
                   "selfReference": [
                     {
                       "selfReference": [],
-                      "someProperty1": "asdas"
+                      "someProperty1": "val1"
                     }
                   ],
-                  "someProperty": "aassdas"
+                  "someProperty": "val2"
                 }
               ],
-              "someProperty": "asdasd"
+              "someProperty": "val3"
             },
             "strict": true,
             "name": null,
@@ -108,13 +108,13 @@
                   "selfReference": [
                     {
                       "selfReference": [],
-                      "someProperty1": "asdas"
+                      "someProperty1": "val1"
                     }
                   ],
-                  "someProperty": "aassdas"
+                  "someProperty": "val2"
                 }
               ],
-              "someProperty": "asdasd"
+              "someProperty": "val3"
             }
           }
         }

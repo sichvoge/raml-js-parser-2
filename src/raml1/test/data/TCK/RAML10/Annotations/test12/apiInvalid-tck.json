@@ -5,8 +5,8 @@
     "annotations": {
       "Type": {
         "structuredValue": {
-          "ddddx": {
-            "dd": "ss"
+          "prop1": {
+            "prop1": "stringValue"
           }
         },
         "name": "Type"
@@ -23,9 +23,9 @@
           "repeat": false,
           "required": true,
           "properties": {
-            "ddddx": {
-              "name": "ddddx",
-              "displayName": "ddddx",
+            "prop1": {
+              "name": "prop1",
+              "displayName": "prop1",
               "type": [
                 "object"
               ],

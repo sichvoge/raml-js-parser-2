@@ -183,11 +183,11 @@
           "example": {
             "unionArray": [
               {
-                "property1": "aaaa",
-                "property2": "aaaa"
+                "property1": "val1",
+                "property2": "val2"
               },
               {
-                "property1": "aaa",
+                "property1": "val1",
                 "property2": 2
               }
             ]
@@ -235,11 +235,11 @@
             "value": {
               "unionArray": [
                 {
-                  "property1": "aaaa",
-                  "property2": "aaaa"
+                  "property1": "val1",
+                  "property2": "val2"
                 },
                 {
-                  "property1": "aaa",
+                  "property1": "val1",
                   "property2": 2
                 }
               ]
@@ -249,11 +249,11 @@
             "structuredValue": {
               "unionArray": [
                 {
-                  "property1": "aaaa",
-                  "property2": "aaaa"
+                  "property1": "val1",
+                  "property2": "val2"
                 },
                 {
-                  "property1": "aaa",
+                  "property1": "val1",
                   "property2": 2
                 }
               ]
@@ -281,7 +281,7 @@
         {
           "line": 28,
           "column": 22,
-          "position": 479
+          "position": 480
         }
       ]
     },
@@ -291,17 +291,17 @@
       "path": "apiInvalid.raml",
       "line": 28,
       "column": 10,
-      "position": 467,
+      "position": 468,
       "range": [
         {
           "line": 28,
           "column": 10,
-          "position": 467
+          "position": 468
         },
         {
           "line": 28,
           "column": 19,
-          "position": 476
+          "position": 477
         }
       ]
     }

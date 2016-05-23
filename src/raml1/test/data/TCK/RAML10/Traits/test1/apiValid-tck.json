@@ -616,7 +616,7 @@
                   "RTType1"
                 ],
                 "example": {
-                  "rtTypeProperty1": "asdasd"
+                  "rtTypeProperty1": "stringValue"
                 },
                 "repeat": false,
                 "required": true,
@@ -635,12 +635,12 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "rtTypeProperty1": "asdasd"
+                    "rtTypeProperty1": "stringValue"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "rtTypeProperty1": "asdasd"
+                    "rtTypeProperty1": "stringValue"
                   }
                 }
               }
@@ -668,8 +668,8 @@
                     "example": {
                       "traitProperty1": true,
                       "traitProperty2": 1,
-                      "traitProperty1_3": "asdasd",
-                      "traitProperty2_3": "asdasd"
+                      "traitProperty1_3": "stringValue1",
+                      "traitProperty2_3": "stringValue2"
                     },
                     "repeat": false,
                     "required": true,
@@ -783,16 +783,16 @@
                       "value": {
                         "traitProperty1": true,
                         "traitProperty2": 1,
-                        "traitProperty1_3": "asdasd",
-                        "traitProperty2_3": "asdasd"
+                        "traitProperty1_3": "stringValue1",
+                        "traitProperty2_3": "stringValue2"
                       },
                       "strict": true,
                       "name": null,
                       "structuredValue": {
                         "traitProperty1": true,
                         "traitProperty2": 1,
-                        "traitProperty1_3": "asdasd",
-                        "traitProperty2_3": "asdasd"
+                        "traitProperty1_3": "stringValue1",
+                        "traitProperty2_3": "stringValue2"
                       }
                     }
                   }

@@ -135,7 +135,7 @@
                 "displayName": "c",
                 "type": "string",
                 "required": false,
-                "example": "asdsasd",
+                "example": "stringValue",
                 "repeat": false,
                 "__METADATA__": {
                   "primitiveValuesMeta": {

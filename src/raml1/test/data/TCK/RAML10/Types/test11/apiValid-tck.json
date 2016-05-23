@@ -84,8 +84,8 @@
           ],
           "example": {
             "prop": [
-              "aaa",
-              "asdasd"
+              "val1",
+              "val2"
             ]
           },
           "repeat": false,
@@ -130,16 +130,16 @@
           "structuredExample": {
             "value": {
               "prop": [
-                "aaa",
-                "asdasd"
+                "val1",
+                "val2"
               ]
             },
             "strict": true,
             "name": null,
             "structuredValue": {
               "prop": [
-                "aaa",
-                "asdasd"
+                "val1",
+                "val2"
               ]
             }
           }

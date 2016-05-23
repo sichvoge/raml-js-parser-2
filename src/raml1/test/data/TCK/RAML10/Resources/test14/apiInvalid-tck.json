@@ -120,8 +120,8 @@
                   "<<bodyTypeParam>>"
                 ],
                 "example": {
-                  "propertyFromResourceType1": "asdsdas",
-                  "propertyFromType2": "asdasd"
+                  "propertyFromResourceType1": "stringValue1",
+                  "propertyFromType2": "stringValue2"
                 },
                 "repeat": false,
                 "required": true,
@@ -145,14 +145,14 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "propertyFromResourceType1": "asdsdas",
-                    "propertyFromType2": "asdasd"
+                    "propertyFromResourceType1": "stringValue1",
+                    "propertyFromType2": "stringValue2"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "propertyFromResourceType1": "asdsdas",
-                    "propertyFromType2": "asdasd"
+                    "propertyFromResourceType1": "stringValue1",
+                    "propertyFromType2": "stringValue2"
                   }
                 }
               }
@@ -293,9 +293,9 @@
                   "Type1"
                 ],
                 "example": {
-                  "extraProperty": "asdasd",
-                  "propertyFromResourceType1": "asdsdas",
-                  "propertyFromType2": "asdasd"
+                  "extraProperty": "stringValue3",
+                  "propertyFromResourceType1": "stringValue1",
+                  "propertyFromType2": "stringValue2"
                 },
                 "repeat": false,
                 "required": true,
@@ -360,16 +360,16 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "extraProperty": "asdasd",
-                    "propertyFromResourceType1": "asdsdas",
-                    "propertyFromType2": "asdasd"
+                    "extraProperty": "stringValue3",
+                    "propertyFromResourceType1": "stringValue1",
+                    "propertyFromType2": "stringValue2"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "extraProperty": "asdasd",
-                    "propertyFromResourceType1": "asdsdas",
-                    "propertyFromType2": "asdasd"
+                    "extraProperty": "stringValue3",
+                    "propertyFromResourceType1": "stringValue1",
+                    "propertyFromType2": "stringValue2"
                   }
                 }
               }
@@ -405,17 +405,17 @@
       "path": "apiInvalid.raml",
       "line": 43,
       "column": 10,
-      "position": 892,
+      "position": 903,
       "range": [
         {
           "line": 43,
           "column": 10,
-          "position": 892
+          "position": 903
         },
         {
           "line": 43,
           "column": 17,
-          "position": 899
+          "position": 910
         }
       ]
     },
@@ -425,17 +425,17 @@
       "path": "apiInvalid.raml",
       "line": 43,
       "column": 10,
-      "position": 892,
+      "position": 903,
       "range": [
         {
           "line": 43,
           "column": 10,
-          "position": 892
+          "position": 903
         },
         {
           "line": 43,
           "column": 17,
-          "position": 899
+          "position": 910
         }
       ]
     }

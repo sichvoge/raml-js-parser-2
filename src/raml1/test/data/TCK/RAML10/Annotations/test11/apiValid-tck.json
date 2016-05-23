@@ -5,10 +5,10 @@
     "annotations": {
       "hello": {
         "structuredValue": {
-          "kk": {
-            "f": {
+          "persons": {
+            "156798654": {
               "Alice": {
-                "name": "asd"
+                "name": "stringValue"
               }
             }
           }
@@ -182,9 +182,9 @@
           "repeat": false,
           "required": true,
           "properties": {
-            "kk": {
-              "name": "kk",
-              "displayName": "kk",
+            "persons": {
+              "name": "persons",
+              "displayName": "persons",
               "type": [
                 "MapOfPerson"
               ],

@@ -120,7 +120,7 @@
                   "<<bodyTypeParam>>"
                 ],
                 "example": {
-                  "propertyFromType1": "asdasd"
+                  "propertyFromType1": "stringValue1"
                 },
                 "repeat": false,
                 "required": true,
@@ -144,12 +144,12 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "propertyFromType1": "asdasd"
+                    "propertyFromType1": "stringValue1"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "propertyFromType1": "asdasd"
+                    "propertyFromType1": "stringValue1"
                   }
                 }
               }
@@ -290,9 +290,9 @@
                   "Type1"
                 ],
                 "example": {
-                  "propertyFromResourceType1": "asdsdas",
-                  "extraProperty": "asdasd",
-                  "propertyFromType1": "asdasd"
+                  "propertyFromResourceType1": "stringValue2",
+                  "extraProperty": "stringValue3",
+                  "propertyFromType1": "stringValue1"
                 },
                 "repeat": false,
                 "required": true,
@@ -357,16 +357,16 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "propertyFromResourceType1": "asdsdas",
-                    "extraProperty": "asdasd",
-                    "propertyFromType1": "asdasd"
+                    "propertyFromResourceType1": "stringValue2",
+                    "extraProperty": "stringValue3",
+                    "propertyFromType1": "stringValue1"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "propertyFromResourceType1": "asdsdas",
-                    "extraProperty": "asdasd",
-                    "propertyFromType1": "asdasd"
+                    "propertyFromResourceType1": "stringValue2",
+                    "extraProperty": "stringValue3",
+                    "propertyFromType1": "stringValue1"
                   }
                 }
               }

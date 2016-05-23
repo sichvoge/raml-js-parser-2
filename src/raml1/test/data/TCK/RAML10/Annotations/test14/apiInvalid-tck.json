@@ -4,18 +4,18 @@
   "specification": {
     "types": [
       {
-        "QQQ": {
-          "name": "QQQ",
-          "displayName": "QQQ",
+        "MyType": {
+          "name": "MyType",
+          "displayName": "MyType",
           "type": [
             "object"
           ],
           "repeat": false,
           "required": true,
           "properties": {
-            "zz": {
-              "name": "zz",
-              "displayName": "zz",
+            "p1": {
+              "name": "p1",
+              "displayName": "p1",
               "type": [
                 "string"
               ],
@@ -92,7 +92,7 @@
               "name": "meta"
             },
             {
-              "structuredValue": "asdsd",
+              "structuredValue": "stringValue",
               "name": "meta"
             }
           ]
@@ -119,17 +119,17 @@
       "path": "apiInvalid.raml",
       "line": 15,
       "column": 2,
-      "position": 323,
+      "position": 326,
       "range": [
         {
           "line": 15,
           "column": 2,
-          "position": 323
+          "position": 326
         },
         {
           "line": 15,
           "column": 8,
-          "position": 329
+          "position": 332
         }
       ]
     },
@@ -139,17 +139,17 @@
       "path": "apiInvalid.raml",
       "line": 16,
       "column": 2,
-      "position": 343,
+      "position": 346,
       "range": [
         {
           "line": 16,
           "column": 2,
-          "position": 343
+          "position": 346
         },
         {
           "line": 16,
           "column": 8,
-          "position": 349
+          "position": 352
         }
       ]
     }

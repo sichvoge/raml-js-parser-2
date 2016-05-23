@@ -121,7 +121,7 @@
           ],
           "example": {
             "someProperty": {
-              "name": "asdasd",
+              "name": "stringValue",
               "age": 123
             }
           },
@@ -167,7 +167,7 @@
           "structuredExample": {
             "value": {
               "someProperty": {
-                "name": "asdasd",
+                "name": "stringValue",
                 "age": 123
               }
             },
@@ -175,7 +175,7 @@
             "name": null,
             "structuredValue": {
               "someProperty": {
-                "name": "asdasd",
+                "name": "stringValue",
                 "age": 123
               }
             }

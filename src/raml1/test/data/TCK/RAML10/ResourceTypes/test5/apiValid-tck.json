@@ -281,9 +281,9 @@
                   "object"
                 ],
                 "example": {
-                  "propertyFromType2": "asdasd",
-                  "propertyFromResourceType1": "asdsdas",
-                  "extraProperty": "asdasd"
+                  "propertyFromType2": "stringValue1",
+                  "propertyFromResourceType1": "stringValue2",
+                  "extraProperty": "stringValue3"
                 },
                 "repeat": false,
                 "required": true,
@@ -305,16 +305,16 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "propertyFromType2": "asdasd",
-                    "propertyFromResourceType1": "asdsdas",
-                    "extraProperty": "asdasd"
+                    "propertyFromType2": "stringValue1",
+                    "propertyFromResourceType1": "stringValue2",
+                    "extraProperty": "stringValue3"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "propertyFromType2": "asdasd",
-                    "propertyFromResourceType1": "asdsdas",
-                    "extraProperty": "asdasd"
+                    "propertyFromType2": "stringValue1",
+                    "propertyFromResourceType1": "stringValue2",
+                    "extraProperty": "stringValue3"
                   }
                 }
               }
@@ -337,9 +337,9 @@
                   "Type2"
                 ],
                 "example": {
-                  "propertyFromType2": "asdasd",
-                  "propertyFromResourceType1": "asdsdas",
-                  "extraProperty": "asdasd"
+                  "propertyFromType2": "stringValue1",
+                  "propertyFromResourceType1": "stringValue2",
+                  "extraProperty": "stringValue3"
                 },
                 "repeat": false,
                 "required": true,
@@ -404,16 +404,16 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "propertyFromType2": "asdasd",
-                    "propertyFromResourceType1": "asdsdas",
-                    "extraProperty": "asdasd"
+                    "propertyFromType2": "stringValue1",
+                    "propertyFromResourceType1": "stringValue2",
+                    "extraProperty": "stringValue3"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "propertyFromType2": "asdasd",
-                    "propertyFromResourceType1": "asdsdas",
-                    "extraProperty": "asdasd"
+                    "propertyFromType2": "stringValue1",
+                    "propertyFromResourceType1": "stringValue2",
+                    "extraProperty": "stringValue3"
                   }
                 }
               }

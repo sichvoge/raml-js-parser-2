@@ -616,7 +616,7 @@
                   "RTType2"
                 ],
                 "example": {
-                  "rtTypeProperty2": "asdasd"
+                  "rtTypeProperty2": "stringValue"
                 },
                 "repeat": false,
                 "required": true,
@@ -635,12 +635,12 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "rtTypeProperty2": "asdasd"
+                    "rtTypeProperty2": "stringValue"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "rtTypeProperty2": "asdasd"
+                    "rtTypeProperty2": "stringValue"
                   }
                 }
               }
@@ -668,8 +668,8 @@
                     "example": {
                       "traitProperty1": true,
                       "traitProperty2": 1,
-                      "traitProperty1_3": "asdasd",
-                      "traitProperty2_3": "asdasd"
+                      "traitProperty1_3": "stringValue1",
+                      "traitProperty2_3": "stringValue2"
                     },
                     "repeat": false,
                     "required": true,
@@ -783,16 +783,16 @@
                       "value": {
                         "traitProperty1": true,
                         "traitProperty2": 1,
-                        "traitProperty1_3": "asdasd",
-                        "traitProperty2_3": "asdasd"
+                        "traitProperty1_3": "stringValue1",
+                        "traitProperty2_3": "stringValue2"
                       },
                       "strict": true,
                       "name": null,
                       "structuredValue": {
                         "traitProperty1": true,
                         "traitProperty2": 1,
-                        "traitProperty1_3": "asdasd",
-                        "traitProperty2_3": "asdasd"
+                        "traitProperty1_3": "stringValue1",
+                        "traitProperty2_3": "stringValue2"
                       }
                     }
                   }
@@ -829,17 +829,17 @@
       "path": "apiInvalid.raml",
       "line": 68,
       "column": 14,
-      "position": 1173,
+      "position": 1178,
       "range": [
         {
           "line": 68,
           "column": 14,
-          "position": 1173
+          "position": 1178
         },
         {
           "line": 68,
           "column": 28,
-          "position": 1187
+          "position": 1192
         }
       ]
     },
@@ -849,17 +849,17 @@
       "path": "apiInvalid.raml",
       "line": 69,
       "column": 14,
-      "position": 1208,
+      "position": 1213,
       "range": [
         {
           "line": 69,
           "column": 14,
-          "position": 1208
+          "position": 1213
         },
         {
           "line": 69,
           "column": 28,
-          "position": 1222
+          "position": 1227
         }
       ]
     }

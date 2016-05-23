@@ -33,7 +33,7 @@
         "TestScheme": {
           "annotations": {
             "TestAnnotation": {
-              "structuredValue": "dsf",
+              "structuredValue": "stringValue1",
               "name": "TestAnnotation"
             }
           },
@@ -42,13 +42,13 @@
           "settings": {
             "annotations": {
               "TestAnnotation": {
-                "structuredValue": "dsf",
+                "structuredValue": "stringValue2",
                 "name": "TestAnnotation"
               }
             },
-            "requestTokenUri": "asf",
-            "authorizationUri": "asdasd",
-            "tokenCredentialsUri": "asdas"
+            "requestTokenUri": "https://example.com/requesttoken",
+            "authorizationUri": "https://example.com/authorize",
+            "tokenCredentialsUri": "https://example.com/credentials"
           }
         }
       }

@@ -16,13 +16,13 @@
                 "selfReference": [
                   {
                     "selfReference": [],
-                    "someProperty": "asd"
+                    "someProperty": "stringValue"
                   }
                 ],
-                "someProperty": "asd"
+                "someProperty": "stringValue"
               }
             ],
-            "someProperty": "asdasd"
+            "someProperty": "stringValue"
           },
           "repeat": false,
           "required": true,
@@ -92,13 +92,13 @@
                   "selfReference": [
                     {
                       "selfReference": [],
-                      "someProperty": "asd"
+                      "someProperty": "stringValue"
                     }
                   ],
-                  "someProperty": "asd"
+                  "someProperty": "stringValue"
                 }
               ],
-              "someProperty": "asdasd"
+              "someProperty": "stringValue"
             },
             "strict": true,
             "name": null,
@@ -108,13 +108,13 @@
                   "selfReference": [
                     {
                       "selfReference": [],
-                      "someProperty": "asd"
+                      "someProperty": "stringValue"
                     }
                   ],
-                  "someProperty": "asd"
+                  "someProperty": "stringValue"
                 }
               ],
-              "someProperty": "asdasd"
+              "someProperty": "stringValue"
             }
           }
         }

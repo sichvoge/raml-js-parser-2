@@ -93,7 +93,7 @@
                 "displayName": "a",
                 "type": "number",
                 "required": false,
-                "example": "ss",
+                "example": "stringValue1",
                 "repeat": false,
                 "__METADATA__": {
                   "primitiveValuesMeta": {
@@ -114,7 +114,7 @@
                 "displayName": "b",
                 "type": "string",
                 "required": false,
-                "example": "asdasd",
+                "example": "stringValue2",
                 "repeat": false,
                 "__METADATA__": {
                   "primitiveValuesMeta": {

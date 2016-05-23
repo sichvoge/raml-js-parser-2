@@ -142,7 +142,7 @@
                 "name": "meta-resource-method"
               },
               "meta-data": {
-                "structuredValue": "asd",
+                "structuredValue": "stringValue1",
                 "name": "meta-data"
               }
             },

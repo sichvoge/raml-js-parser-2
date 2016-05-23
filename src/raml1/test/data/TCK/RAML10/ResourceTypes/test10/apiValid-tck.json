@@ -281,7 +281,7 @@
                   "object"
                 ],
                 "example": {
-                  "extraProperty": "asdasd"
+                  "extraProperty": "stringValue1"
                 },
                 "repeat": false,
                 "required": true,
@@ -303,12 +303,12 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "extraProperty": "asdasd"
+                    "extraProperty": "stringValue1"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "extraProperty": "asdasd"
+                    "extraProperty": "stringValue1"
                   }
                 }
               }
@@ -331,9 +331,9 @@
                   "Type1"
                 ],
                 "example": {
-                  "propertyFromResourceType1": "asdsdas",
-                  "propertyFromType1": "asdasd",
-                  "extraProperty": "asdasd"
+                  "propertyFromResourceType1": "stringValue2",
+                  "propertyFromType1": "stringValue3",
+                  "extraProperty": "stringValue1"
                 },
                 "repeat": false,
                 "required": true,
@@ -398,16 +398,16 @@
                 },
                 "structuredExample": {
                   "value": {
-                    "propertyFromResourceType1": "asdsdas",
-                    "propertyFromType1": "asdasd",
-                    "extraProperty": "asdasd"
+                    "propertyFromResourceType1": "stringValue2",
+                    "propertyFromType1": "stringValue3",
+                    "extraProperty": "stringValue1"
                   },
                   "strict": true,
                   "name": null,
                   "structuredValue": {
-                    "propertyFromResourceType1": "asdsdas",
-                    "propertyFromType1": "asdasd",
-                    "extraProperty": "asdasd"
+                    "propertyFromResourceType1": "stringValue2",
+                    "propertyFromType1": "stringValue3",
+                    "extraProperty": "stringValue1"
                   }
                 }
               }

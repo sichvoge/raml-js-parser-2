@@ -152,8 +152,8 @@
             "name": "Label"
           }
         },
-        "relativeUri": "/hee",
-        "displayName": "/hee",
+        "relativeUri": "/resource",
+        "displayName": "/resource",
         "__METADATA__": {
           "primitiveValuesMeta": {
             "displayName": {
@@ -162,7 +162,7 @@
           }
         },
         "relativeUriPathSegments": [
-          "hee"
+          "resource"
         ]
       }
     ],
