@@ -38,7 +38,7 @@ var testFiles = [
      'dist/raml1/test/model-editing-tests-sig.js',
      'dist/raml1/test/schema-model-tests.js',
   // ////
-    'dist/raml1/test/parserTests.js',
+   'dist/raml1/test/parserTests.js',
    'dist/raml1/test/parserTests2.js',
    'dist/raml1/test/parserASTTests.js',
    'dist/raml1/test/traits-and-resource-types-expanding-tests.js',

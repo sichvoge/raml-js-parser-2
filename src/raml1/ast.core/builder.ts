@@ -754,6 +754,7 @@ function getType(node:hl.IHighLevelNode,expression:string):hl.ITypeDefinition{
 
     (<any>ideType)._universe = typeBase.universe();
     return ideType;
+    // return typeBase;
 }
 
 function desc1(p:hl.IProperty, parent:hl.IHighLevelNode, x:hl.IHighLevelNode):hl.ITypeDefinition{

@@ -754,9 +754,9 @@ describe('Type expressions', function(){
         testErrors(util.data('parser/type/typeExpressions/te06.raml'));
     });
 
-    it('Should parse type expression with expected type',function(){
-        testErrors(util.data('parser/type/typeExpressions/te07.raml'));
-    });
+    // it('Should parse type expression with expected type',function(){
+    //     testErrors(util.data('parser/type/typeExpressions/te07.raml'));
+    // });
 
     it('Should parse type extended from type expression',function(){
         testErrors(util.data('parser/type/typeExpressions/te08.raml'));
