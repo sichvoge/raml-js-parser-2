@@ -780,7 +780,7 @@ describe('TCK tests',function() {
 
     it("Libraries 001", function () {
         this.timeout(15000);
-        testAPI('TCK/RAML10/Libraries 001/api.raml');
+        testAPI('TCK/RAML10/Libraries/Libraries 001/api.raml');
     });
 
     it("Form Parameters", function () {
