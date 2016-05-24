@@ -117,7 +117,7 @@
       }
     ],
     "title": "blah",
-    "extends": "test30.raml"
+    "extends": "api.raml"
   },
   "errors": []
 }

@@ -36,7 +36,7 @@
             }
         ],
         "usage": "Spanish localization",
-        "extends": "librarybooks.raml"
+        "extends": "api.raml"
     },
     "errors": []
 }
