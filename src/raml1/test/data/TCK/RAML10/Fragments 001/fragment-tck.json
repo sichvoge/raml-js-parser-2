@@ -10,7 +10,7 @@
     "uses": [
       {
         "key": "lib",
-        "value": "lib.raml"
+        "value": "lib/lib.raml"
       }
     ],
     "properties": {
