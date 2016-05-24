@@ -28,58 +28,48 @@
         }
       },
       {
-        "z": {
-          "name": "z",
-          "displayName": "z",
-          "type": [
-            "mySchema"
-          ],
-          "example": {
-            "message": 2
-          },
-          "repeat": false,
-          "required": true,
-          "__METADATA__": {
-            "primitiveValuesMeta": {
-              "displayName": {
-                "calculated": true
-              },
-              "repeat": {
-                "insertedAsDefault": true
-              },
-              "required": {
-                "insertedAsDefault": true
-              }
-            }
-          },
-          "structuredExample": {
-            "value": {
-              "message": 2
-            },
-            "strict": true,
-            "name": null,
-            "structuredValue": {
-              "message": 2
-            }
-          }
-        }
-      },
-      {
         "z2": {
           "name": "z2",
           "displayName": "z2",
           "type": [
-            "mySchema"
+            "object"
           ],
           "example": {
-            "id": "4"
+            "c": 4
           },
           "repeat": false,
           "required": true,
+          "properties": {
+            "c": {
+              "name": "c",
+              "displayName": "c",
+              "type": [
+                "mySchema"
+              ],
+              "repeat": false,
+              "required": true,
+              "__METADATA__": {
+                "primitiveValuesMeta": {
+                  "displayName": {
+                    "calculated": true
+                  },
+                  "repeat": {
+                    "insertedAsDefault": true
+                  },
+                  "required": {
+                    "insertedAsDefault": true
+                  }
+                }
+              }
+            }
+          },
           "__METADATA__": {
             "primitiveValuesMeta": {
               "displayName": {
                 "calculated": true
+              },
+              "type": {
+                "insertedAsDefault": true
               },
               "repeat": {
                 "insertedAsDefault": true
@@ -91,12 +81,12 @@
           },
           "structuredExample": {
             "value": {
-              "id": "4"
+              "c": 4
             },
             "strict": true,
             "name": null,
             "structuredValue": {
-              "id": "4"
+              "c": 4
             }
           }
         }
@@ -107,21 +97,41 @@
   "errors": [
     {
       "code": 11,
-      "message": "Example does not conform to schema:Content is not valid according to schema:Missing required property: id id",
+      "message": "It is not allowed to use external types in property definitions",
       "path": "api.raml",
-      "line": 19,
-      "column": 4,
-      "position": 430,
+      "line": 20,
+      "column": 6,
+      "position": 431,
       "range": [
         {
-          "line": 19,
-          "column": 4,
-          "position": 430
+          "line": 20,
+          "column": 6,
+          "position": 431
         },
         {
-          "line": 19,
-          "column": 11,
-          "position": 437
+          "line": 20,
+          "column": 7,
+          "position": 432
+        }
+      ]
+    },
+    {
+      "code": 11,
+      "message": "Example does not conform to schema:Content is not valid according to schema:Expected type object but found type integer object,integer",
+      "path": "api.raml",
+      "line": 22,
+      "column": 6,
+      "position": 462,
+      "range": [
+        {
+          "line": 22,
+          "column": 6,
+          "position": 462
+        },
+        {
+          "line": 22,
+          "column": 7,
+          "position": 463
         }
       ]
     }

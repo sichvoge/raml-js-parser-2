@@ -4,11 +4,11 @@
   "specification": {
     "types": [
       {
-        "Account": {
-          "name": "Account",
-          "displayName": "Account",
+        "mySchema": {
+          "name": "mySchema",
+          "displayName": "mySchema",
           "type": [
-            "{\n  properties: {\n  \"auth_token\": {\n    \"required\": false,\n    \"type\": \"string\"\n  },\n  \"uri\": {\n    \"required\": false,\n    \"type\": \"string\"\n  },\n  \"date_created\": {\n    \"description\": \"The date that this account was created, in GMT in RFC 2822 format\",\n    \"required\": false,\n    \"type\": \"string\"\n  },\n  \"date_updated\": {\n    \"description\": \"The date that this account was last updated, in GMT in RFC 2822 format.\",\n    \"required\": false,\n    \"type\": \"string\"\n  },\n  \"friendly_name\": {\n    \"description\": \"A human readable description of this account, up to 64 characters long. By default the FriendlyName is your email address.\",\n    \"required\": false,\n    \"type\": \"string\"\n  },\n  \"sid\": {\n    \"description\": \"A 34 character string that uniquely identifies this account.\",\n    \"required\": false,\n    \"type\": \"string\"\n  },\n  \"status\": {\n    \"description\": \"The status of this account. Usually active, but can be suspended or closed.\",\n    \"required\": false,\n    \"type\": \"string\"\n  },\n  \"type\": {\n    \"description\": \"The type of this account. Either Trial or Full if you've upgraded.\",\n    \"required\": false,\n    \"type\": \"string\"\n  },\n  \"subresource_uris\": {\n    \"type\": \"object\",\n    \"required\": false\n  }\n},\n\"required\": false,\n\"type\": \"object\"\n}\n"
+            "{\n  \"$schema\": \"http://json-schema.org/draft-04/schema#\",\n  \"title\": \"Product\",\n  \"description\": \"A product from Acme's catalog\",\n  \"type\": \"object\",\n  \"properties\": {\n      \"id\": {\n          \"description\": \"The unique identifier for a product\",\n          \"type\": \"string\"\n      }\n  },\n  \"required\": [\"id\"]\n}\n"
           ],
           "repeat": false,
           "required": true,
@@ -26,28 +26,102 @@
             }
           }
         }
+      },
+      {
+        "z": {
+          "name": "z",
+          "displayName": "z",
+          "type": [
+            "mySchema"
+          ],
+          "example": {
+            "message": 2
+          },
+          "repeat": false,
+          "required": true,
+          "__METADATA__": {
+            "primitiveValuesMeta": {
+              "displayName": {
+                "calculated": true
+              },
+              "repeat": {
+                "insertedAsDefault": true
+              },
+              "required": {
+                "insertedAsDefault": true
+              }
+            }
+          },
+          "structuredExample": {
+            "value": {
+              "message": 2
+            },
+            "strict": true,
+            "name": null,
+            "structuredValue": {
+              "message": 2
+            }
+          }
+        }
+      },
+      {
+        "z2": {
+          "name": "z2",
+          "displayName": "z2",
+          "type": [
+            "mySchema"
+          ],
+          "example": {
+            "id": "4"
+          },
+          "repeat": false,
+          "required": true,
+          "__METADATA__": {
+            "primitiveValuesMeta": {
+              "displayName": {
+                "calculated": true
+              },
+              "repeat": {
+                "insertedAsDefault": true
+              },
+              "required": {
+                "insertedAsDefault": true
+              }
+            }
+          },
+          "structuredExample": {
+            "value": {
+              "id": "4"
+            },
+            "strict": true,
+            "name": null,
+            "structuredValue": {
+              "id": "4"
+            }
+          }
+        }
       }
     ],
-    "title": "My API With Types"
+    "title": "A"
   },
   "errors": [
     {
       "code": 11,
-      "message": "It is not JSON schema(can not parse JSON:Unexpected token p)",
+      "message": "Example does not conform to schema:Content is not valid according to schema:Missing required property: id id",
       "path": "api.raml",
-      "line": 3,
-      "column": 2,
-      "position": 45,
+      "line": 19,
+      "column": 4,
+      "position": 430,
       "range": [
         {
-          "line": 3,
-          "column": 2,
-          "position": 45
+          "line": 19,
+          "column": 4,
+          "position": 430
         },
         {
-          "line": 3,
-          "column": 9,
-          "position": 52
+          "line": 19,
+          "column": 11,
+          "position": 437
         }
       ]
     }

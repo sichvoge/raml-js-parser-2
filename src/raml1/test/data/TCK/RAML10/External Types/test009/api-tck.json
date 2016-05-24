@@ -35,7 +35,9 @@
             "object"
           ],
           "example": {
-            "c": 4
+            "c": {
+              "id": "2"
+            }
           },
           "repeat": false,
           "required": true,
@@ -81,12 +83,16 @@
           },
           "structuredExample": {
             "value": {
-              "c": 4
+              "c": {
+                "id": "2"
+              }
             },
             "strict": true,
             "name": null,
             "structuredValue": {
-              "c": 4
+              "c": {
+                "id": "2"
+              }
             }
           }
         }
@@ -112,26 +118,6 @@
           "line": 20,
           "column": 7,
           "position": 432
-        }
-      ]
-    },
-    {
-      "code": 11,
-      "message": "Example does not conform to schema:Content is not valid according to schema:Expected type object but found type integer object,integer",
-      "path": "api.raml",
-      "line": 22,
-      "column": 6,
-      "position": 462,
-      "range": [
-        {
-          "line": 22,
-          "column": 6,
-          "position": 462
-        },
-        {
-          "line": 22,
-          "column": 7,
-          "position": 463
         }
       ]
     }
