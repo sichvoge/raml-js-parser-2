@@ -1,16 +1,29 @@
 {
   "ramlVersion": "RAML10",
-  "type": "Overlay",
+  "type": "Extension",
   "specification": {
-    "title": "Pet Shop Overlay",
-    "documentation": [
+    "title": "Extension",
+    "resources": [
       {
-        "title": "More",
-        "content": "Content"
+        "relativeUri": "/resource",
+        "displayName": "Test3",
+        "relativeUriPathSegments": [
+          "resource"
+        ]
       },
       {
-        "title": "More2",
-        "content": "Content2"
+        "relativeUri": "/anotherResource",
+        "displayName": "/anotherResource",
+        "__METADATA__": {
+          "primitiveValuesMeta": {
+            "displayName": {
+              "calculated": true
+            }
+          }
+        },
+        "relativeUriPathSegments": [
+          "anotherResource"
+        ]
       }
     ],
     "extends": "api.raml"

@@ -2,22 +2,52 @@
   "ramlVersion": "RAML10",
   "type": "Overlay",
   "specification": {
-    "title": "Pet Shop Overlay",
-    "documentation": [
+    "title": "Overlay2",
+    "resources": [
       {
-        "title": "More",
-        "content": "Content"
+        "relativeUri": "/resource",
+        "displayName": "Test3",
+        "relativeUriPathSegments": [
+          "resource"
+        ]
       },
       {
-        "title": "Introduction",
-        "content": "Automated access to books"
-      },
-      {
-        "title": "Licensing",
-        "content": "Please respect copyrights on our books."
+        "relativeUri": "/anotherResource",
+        "displayName": "/anotherResource",
+        "__METADATA__": {
+          "primitiveValuesMeta": {
+            "displayName": {
+              "calculated": true
+            }
+          }
+        },
+        "relativeUriPathSegments": [
+          "anotherResource"
+        ]
       }
     ],
     "extends": "api.raml"
   },
-  "errors": []
+  "errors": [
+    {
+      "code": 10,
+      "message": "The './anotherResource' node does not match any node of the master api.",
+      "path": "NewOverlay2.raml",
+      "line": 6,
+      "column": 0,
+      "position": 88,
+      "range": [
+        {
+          "line": 6,
+          "column": 0,
+          "position": 88
+        },
+        {
+          "line": 6,
+          "column": 16,
+          "position": 104
+        }
+      ]
+    }
+  ]
 }
