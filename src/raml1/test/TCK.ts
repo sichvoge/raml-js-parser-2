@@ -319,45 +319,45 @@ describe('TCK. Resource types tests.', function () {
     });
 });
 
-describe('TCK Raml08. Resource types tests.', function () {
+describe('TCK RAML08. Resource types tests.', function () {
     it("Resource types test 1.", function () {
-        testAPI('TCK/Raml08/ResourceTypes/test1/apiValid.raml');
+        testAPI('TCK/RAML08/ResourceTypes/test1/apiValid.raml');
     });
 
     it("Resource types test 1. Negative example test.", function () {
-        testAPI('TCK/Raml08/ResourceTypes/test1/apiInvalid.raml');
+        testAPI('TCK/RAML08/ResourceTypes/test1/apiInvalid.raml');
     });
 
     it("Resource types test 2.", function () {
-        testAPI('TCK/Raml08/ResourceTypes/test2/apiValid.raml');
+        testAPI('TCK/RAML08/ResourceTypes/test2/apiValid.raml');
     });
 
     it("Resource types test 2. Negative example test.", function () {
-        testAPI('TCK/Raml08/ResourceTypes/test2/apiInvalid.raml');
+        testAPI('TCK/RAML08/ResourceTypes/test2/apiInvalid.raml');
     });
 
     it("Resource types test 3.", function () {
-        testAPI('TCK/Raml08/ResourceTypes/test3/apiValid.raml');
+        testAPI('TCK/RAML08/ResourceTypes/test3/apiValid.raml');
     });
 
     it("Resource types test 3. Negative example test.", function () {
-        testAPI('TCK/Raml08/ResourceTypes/test3/apiInvalid.raml');
+        testAPI('TCK/RAML08/ResourceTypes/test3/apiInvalid.raml');
     });
 
     it("Resource types test 4.", function () {
-        testAPI('TCK/Raml08/ResourceTypes/test4/apiValid.raml');
+        testAPI('TCK/RAML08/ResourceTypes/test4/apiValid.raml');
     });
 
     it("Resource types test 4. Negative example test.", function () {
-        testAPI('TCK/Raml08/ResourceTypes/test4/apiInvalid.raml');
+        testAPI('TCK/RAML08/ResourceTypes/test4/apiInvalid.raml');
     });
 
     it("Resource types test 5.", function () {
-        testAPI('TCK/Raml08/ResourceTypes/test5/apiValid.raml');
+        testAPI('TCK/RAML08/ResourceTypes/test5/apiValid.raml');
     });
 
     it("Resource types test 5. Negative example test.", function () {
-        testAPI('TCK/Raml08/ResourceTypes/test5/apiInvalid.raml');
+        testAPI('TCK/RAML08/ResourceTypes/test5/apiInvalid.raml');
     });
 });
 
